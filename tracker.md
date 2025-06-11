@@ -13,8 +13,8 @@
 ### **ETAPA 2: Capa de Dominio**
 | Tarea | Estado | Tiempo Est. | Descripción |
 |-------|--------|-------------|-------------|
-| 2.1 | ⬜ | Crear `Coordinate.ts` con tipo y validaciones |
-| 2.2 | ⬜ | Implementar `PathCalculator.ts` con lógica Chebyshev |
+| 2.1 | ✅ | Crear `Coordinate.ts` con tipo y validaciones |
+| 2.2 | ✅ | Implementar `PathCalculator.ts` con lógica Chebyshev |
 
 **Entregable**: Lógica core del cálculo de distancia funcional.
 
