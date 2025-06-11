@@ -22,7 +22,7 @@ El objetivo del reto es construir una **mini‑aplicación web** que explique, d
 
 | Rol                                     | Necesidades clave                                                           |
 | --------------------------------------- | --------------------------------------------------------------------------- |
-| 👩‍💻 **Aprendiz/Cliente** (dev junior) | • Ingresar lista de coordenadas  • Ver tablero  • Entender resultado mínimo |                        |
+| 👩‍💻 **Aprendiz** | • Ingresar lista de coordenadas  • Ver tablero  • Entender resultado mínimo |                        |
 
 ---
 
@@ -49,7 +49,7 @@ El objetivo del reto es construir una **mini‑aplicación web** que explique, d
 | Capa                | Herramientas                                                  |
 | ------------------- | ------------------------------------------------------------- |
 | **Presentación**    | React 18 + TypeScript, Vite, TailwindCSS                      |
-| **Aplicación**      | RxJS (para flujos), Zod (validación), React Context 					|
+| **Aplicación**      | Zod (validación), React Context 					|
 | **Dominio**         | Clases TS puras 100 % libre de frameworks                     |
 
 ---
@@ -80,7 +80,7 @@ Dependencias siempre **de exterior a interior** (Presentation → App → Do
 1. **Simplicidad algorítmica** El camino mínimo entre dos casillas con movimiento en 8 direcciones: `steps = max(|dx|, |dy|)`. Cualquier búsqueda de camino (BFS) sería O(n²) innecesario.
 2. **Validación temprana** Se usa `Zod` para validar que cada coordenada es un entero ≥ 0.
 3. **Inmutabilidad** El DOM no se usa para estado; se modela todo en TS y se proyecta a React.
-4. **Visibilidad pedagógica** El tablero se re‑renderiza completo en lugar de patches finos: la claridad pesa más que la perf micro.
+4. **Visibilidad pedagógica** El tablero se re‑renderiza completo.
 
 **Crítica**: Una micro‑lib como Immutable.js o Immer podría traer ruido extra; se descarta. Animaciones son un plus.
 
@@ -95,7 +95,7 @@ Dependencias siempre **de exterior a interior** (Presentation → App → Do
 | 3    | `src/domain/services/PathCalculator.ts`                      | Implement `getMinSteps(coords: Coordinate[]): number` usando acumulador con \`max(| dx | , | dy | )`. Añade `export const directionBetween(a,b)\` si se quiere mostrar flechas. |
 | 4    | `src/application/usecases/CalculatePathUseCase.ts`           | Orquesta: recibe string JSON, valida con Zod, llama a servicio, devuelve DTO `{steps, path}`.               |    |   |    |                                                                               |
 | 5    | Presentación                                                 | Crea `presentation/components/Board.tsx` (flex‑grid 8× máxCoord) y `CoordinateList.tsx` (textarea + botón). |    |   |    |                                                                               |
-| 6    | Estado global                                                | `presentation/context/PathContext.tsx` con Zustand → mantiene `coords`, `steps`.                            |    |   |    |                                                                               |
+| 6    | Estado global                                                | `presentation/context/PathContext.tsx` → mantiene `coords`, `steps`.                            |    |   |    |                                                                               |
 | 7    | Página                                                       | `HomePage.tsx` compone Board + CoordinateList + resultado.                                                  |    |   |    |                                                                               |
 | 8    | Infra                                                        | `LocalStoreRepository.ts` lee/escribe última lista. Llama en `PathContext` `useEffect`.                     |    |   |    |                                                                               |
 | 9   | Style                                                        | Añade Tailwind + Prettier config. Usa clases `rounded-2xl shadow-md` en Board.                              |    |   |    |                                                                               |
