@@ -6,9 +6,7 @@
 | 1.1 | ✅ | Instalar dependencias (Zod, TailwindCSS) |
 | 1.2 | ✅ | Configurar TailwindCSS con Vite |
 | 1.3 | ✅ | Limpiar archivos template de Vite |
-| 1.4 | ⬜ | Crear estructura de carpetas Clean Architecture |
-
-**Entregable**: Proyecto listo para desarrollo con estructura base.
+| 1.4 | ✅ | Crear estructura de carpetas Clean Architecture |
 
 ---
 
@@ -17,7 +15,6 @@
 |-------|--------|-------------|-------------|
 | 2.1 | ⬜ | Crear `Coordinate.ts` con tipo y validaciones |
 | 2.2 | ⬜ | Implementar `PathCalculator.ts` con lógica Chebyshev |
-| 2.3 | ⬜ | Crear tests unitarios básicos |
 
 **Entregable**: Lógica core del cálculo de distancia funcional.
 
