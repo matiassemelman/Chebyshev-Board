@@ -18,15 +18,7 @@ El objetivo del reto es construir una **mini‑aplicación web** que explique, d
 
 ---
 
-### 3 · Usuarios y roles
-
-| Rol                                     | Necesidades clave                                                           |
-| --------------------------------------- | --------------------------------------------------------------------------- |
-| 👩‍💻 **Aprendiz** | • Ingresar lista de coordenadas  • Ver tablero  • Entender resultado mínimo |                        |
-
----
-
-### 4 · Características
+### 3 · Características
 
 1. **Input de coordenadas** (listado editable o texto JSON).
 2. **Renderizado de tablero** dinámico con posición inicial y visitas.
@@ -35,7 +27,7 @@ El objetivo del reto es construir una **mini‑aplicación web** que explique, d
 
 ---
 
-### 5 · User Journey resumido
+### 4 · User Journey resumido
 
 1. Usuario abre `/` → ve formulario vacío y tablero.
 2. Pega `[ (0,0), (1,2), (1,3) ]` → `Calcular`.
@@ -44,7 +36,7 @@ El objetivo del reto es construir una **mini‑aplicación web** que explique, d
 
 ---
 
-### 6 · Tech Stack
+### 5 · Tech Stack
 
 | Capa                | Herramientas                                                  |
 | ------------------- | ------------------------------------------------------------- |
@@ -54,7 +46,7 @@ El objetivo del reto es construir una **mini‑aplicación web** que explique, d
 
 ---
 
-### 7 · Arquitectura (Clean)
+### 6 · Arquitectura (Clean)
 
 ```
 src/
