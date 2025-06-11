@@ -23,8 +23,8 @@
 ### **ETAPA 3: Capa de Aplicación**
 | Tarea | Estado | Tiempo Est. | Descripción |
 |-------|--------|-------------|-------------|
-| 3.1 | ⬜ | Crear `CalculatePathUseCase.ts` con orquestación |
-| 3.2 | ⬜ | Implementar validación con Zod schemas |
+| 3.1 | ✅ | Crear `CalculatePathUseCase.ts` con orquestación |
+| 3.2 | ✅ | Implementar validación con Zod schemas |
 
 **Entregable**: Caso de uso completo con validación.
 
