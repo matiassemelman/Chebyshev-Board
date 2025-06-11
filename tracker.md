@@ -5,7 +5,7 @@
 |-------|--------|-------------|-------------|
 | 1.1 | ✅ | Instalar dependencias (Zod, TailwindCSS) |
 | 1.2 | ✅ | Configurar TailwindCSS con Vite |
-| 1.3 | ⬜ | Limpiar archivos template de Vite |
+| 1.3 | ✅ | Limpiar archivos template de Vite |
 | 1.4 | ⬜ | Crear estructura de carpetas Clean Architecture |
 
 **Entregable**: Proyecto listo para desarrollo con estructura base.
