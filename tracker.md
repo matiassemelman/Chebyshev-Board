@@ -3,10 +3,10 @@
 ### **ETAPA 1: Configuración Base**
 | Tarea | Estado | Tiempo Est. | Descripción |
 |-------|--------|-------------|-------------|
-| 1.1 | ✅ | 30min | Instalar dependencias (Zod, TailwindCSS) |
-| 1.2 | ✅ | 45min | Configurar TailwindCSS con Vite |
-| 1.3 | ⬜ | 15min | Limpiar archivos template de Vite |
-| 1.4 | ⬜ | 30min | Crear estructura de carpetas Clean Architecture |
+| 1.1 | ✅ | Instalar dependencias (Zod, TailwindCSS) |
+| 1.2 | ✅ | Configurar TailwindCSS con Vite |
+| 1.3 | ⬜ | Limpiar archivos template de Vite |
+| 1.4 | ⬜ | Crear estructura de carpetas Clean Architecture |
 
 **Entregable**: Proyecto listo para desarrollo con estructura base.
 
@@ -15,9 +15,9 @@
 ### **ETAPA 2: Capa de Dominio**
 | Tarea | Estado | Tiempo Est. | Descripción |
 |-------|--------|-------------|-------------|
-| 2.1 | ⬜ | 45min | Crear `Coordinate.ts` con tipo y validaciones |
-| 2.2 | ⬜ | 60min | Implementar `PathCalculator.ts` con lógica Chebyshev |
-| 2.3 | ⬜ | 15min | Crear tests unitarios básicos |
+| 2.1 | ⬜ | Crear `Coordinate.ts` con tipo y validaciones |
+| 2.2 | ⬜ | Implementar `PathCalculator.ts` con lógica Chebyshev |
+| 2.3 | ⬜ | Crear tests unitarios básicos |
 
 **Entregable**: Lógica core del cálculo de distancia funcional.
 
@@ -26,8 +26,8 @@
 ### **ETAPA 3: Capa de Aplicación**
 | Tarea | Estado | Tiempo Est. | Descripción |
 |-------|--------|-------------|-------------|
-| 3.1 | ⬜ | 45min | Crear `CalculatePathUseCase.ts` con orquestación |
-| 3.2 | ⬜ | 30min | Implementar validación con Zod schemas |
+| 3.1 | ⬜ | Crear `CalculatePathUseCase.ts` con orquestación |
+| 3.2 | ⬜ | Implementar validación con Zod schemas |
 
 **Entregable**: Caso de uso completo con validación.
 
@@ -36,7 +36,7 @@
 ### **ETAPA 4: Capa de Infraestructura**
 | Tarea | Estado | Tiempo Est. | Descripción |
 |-------|--------|-------------|-------------|
-| 4.1 | ⬜ | 45min | Crear `LocalStorageRepository.ts` para persistencia |
+| 4.1 | ⬜ | Crear `LocalStorageRepository.ts` para persistencia |
 
 **Entregable**: Persistencia local funcional.
 
@@ -45,9 +45,9 @@
 ### **ETAPA 5: Capa de Presentación - Base**
 | Tarea | Estado | Tiempo Est. | Descripción |
 |-------|--------|-------------|-------------|
-| 5.1 | ⬜ | 60min | Crear `PathContext.tsx` para estado global |
-| 5.2 | ⬜ | 45min | Implementar `CoordinateInput.tsx` |
-| 5.3 | ⬜ | 60min | Crear `Board.tsx` básico sin estilos |
+| 5.1 | ⬜ | Crear `PathContext.tsx` para estado global |
+| 5.2 | ⬜ | Implementar `CoordinateInput.tsx` |
+| 5.3 | ⬜ | Crear `Board.tsx` básico sin estilos |
 
 **Entregable**: Componentes funcionales básicos.
 
@@ -56,9 +56,9 @@
 ### **ETAPA 6: Capa de Presentación - UI/UX**
 | Tarea | Estado | Tiempo Est. | Descripción |
 |-------|--------|-------------|-------------|
-| 6.1 | ⬜ | 90min | Estilizar `Board.tsx` con TailwindCSS |
-| 6.2 | ⬜ | 60min | Mejorar `CoordinateInput.tsx` con validación visual |
-| 6.3 | ⬜ | 30min | Crear `StepsDisplay.tsx` para mostrar resultado |
+| 6.1 | ⬜ | Estilizar `Board.tsx` con TailwindCSS |
+| 6.2 | ⬜ | Mejorar `CoordinateInput.tsx` con validación visual |
+| 6.3 | ⬜ | Crear `StepsDisplay.tsx` para mostrar resultado |
 
 **Entregable**: UI pulida y funcional.
 
@@ -67,8 +67,8 @@
 ### **ETAPA 7: Integración y Página Principal**
 | Tarea | Estado | Tiempo Est. | Descripción |
 |-------|--------|-------------|-------------|
-| 7.1 | ⬜ | 45min | Crear `HomePage.tsx` integrando todos los componentes |
-| 7.2 | ⬜ | 30min | Conectar con contexto y casos de uso |
+| 7.1 | ⬜ | Crear `HomePage.tsx` integrando todos los componentes |
+| 7.2 | ⬜ | Conectar con contexto y casos de uso |
 
 **Entregable**: Aplicación completamente funcional.
 
@@ -77,8 +77,8 @@
 ### **ETAPA 8: Pulimiento**
 | Tarea | Estado | Tiempo Est. | Descripción |
 |-------|--------|-------------|-------------|
-| 8.2 | ⬜ | 30min | Optimizaciones de performance |
-| 8.3 | ⬜ | 30min | Documentación final |
+| 8.2 | ⬜ | Optimizaciones de performance |
+| 8.3 | ⬜ | Documentación final |
 
 ---
 
