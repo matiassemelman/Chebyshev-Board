@@ -33,7 +33,7 @@
 ### **ETAPA 4: Capa de Infraestructura**
 | Tarea | Estado | Tiempo Est. | Descripción |
 |-------|--------|-------------|-------------|
-| 4.1 | ⬜ | Crear `LocalStorageRepository.ts` para persistencia |
+| 4.1 | ✅ | Crear `LocalStorageRepository.ts` para persistencia |
 
 **Entregable**: Persistencia local funcional.
 
