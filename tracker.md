@@ -42,9 +42,9 @@
 ### **ETAPA 5: Capa de Presentación - Base**
 | Tarea | Estado | Tiempo Est. | Descripción |
 |-------|--------|-------------|-------------|
-| 5.1 | ⬜ | Crear `PathContext.tsx` para estado global |
-| 5.2 | ⬜ | Implementar `CoordinateInput.tsx` |
-| 5.3 | ⬜ | Crear `Board.tsx` básico sin estilos |
+| 5.1 | ✅ | Crear `PathContext.tsx` para estado global |
+| 5.2 | ✅ | Implementar `CoordinateInput.tsx` |
+| 5.3 | ✅ | Crear `Board.tsx` básico sin estilos |
 
 **Entregable**: Componentes funcionales básicos.
 
@@ -64,8 +64,8 @@
 ### **ETAPA 7: Integración y Página Principal**
 | Tarea | Estado | Tiempo Est. | Descripción |
 |-------|--------|-------------|-------------|
-| 7.1 | ⬜ | Crear `HomePage.tsx` integrando todos los componentes |
-| 7.2 | ⬜ | Conectar con contexto y casos de uso |
+| 7.1 | ✅ | Crear `HomePage.tsx` integrando todos los componentes |
+| 7.2 | ✅ | Conectar con contexto y casos de uso |
 
 **Entregable**: Aplicación completamente funcional.
 
