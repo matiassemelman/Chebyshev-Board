@@ -1,6 +1,6 @@
 # Visualizador educativo de recorridos mínimos en tableros de 8 direcciones
 
-[Preview en Vercel](https://prosumia-challenge.vercel.app/)
+[Preview en Vercel](https://chebyshev-board.vercel.app/)
 ---
 
 ### 1 · Introducción
