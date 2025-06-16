@@ -1,19 +1,19 @@
 /**
- * IMPLEMENTACIÓN DE PERSISTENCIA - CAPA DE INFRAESTRUCTURA
+ * PERSISTENCE IMPLEMENTATION - INFRASTRUCTURE LAYER
  *
- * Implementa CoordinateRepository usando localStorage del navegador.
+ * Implements CoordinateRepository using browser's localStorage.
  *
- * ¿POR QUÉ AQUÍ Y NO EN DOMINIO?
- * - Esta clase contiene detalles técnicos específicos (localStorage, JSON, etc.)
- * - El dominio solo conoce la interface, no esta implementación
- * - Podríamos crear FirebaseRepository, APIRepository, etc. sin tocar dominio
- * - Cumple Clean Architecture: dependencias apuntan hacia adentro
+ * WHY HERE AND NOT IN DOMAIN?
+ * - This class contains specific technical details (localStorage, JSON, etc.)
+ * - Domain only knows the interface, not this implementation
+ * - We could create FirebaseRepository, APIRepository, etc. without touching domain
+ * - Follows Clean Architecture: dependencies point inward
  *
- * ROBUSTEZ IMPLEMENTADA:
- * - localStorage puede estar deshabilitado (modo privado, políticas corporativas)
- * - localStorage puede estar lleno (QuotaExceededError)
- * - Datos pueden estar corruptos (JSON malformado, estructura incorrecta)
- * - Validación con Zod para asegurar integridad de datos
+ * IMPLEMENTED ROBUSTNESS:
+ * - localStorage might be disabled (private mode, corporate policies)
+ * - localStorage might be full (QuotaExceededError)
+ * - Data might be corrupted (malformed JSON, incorrect structure)
+ * - Zod validation to ensure data integrity
  */
 
 import { z } from 'zod';
@@ -21,22 +21,22 @@ import type { Coordinate } from '../../domain/models/Coordinate';
 import type { CoordinateRepository } from '../../domain/repositories/CoordinateRepository';
 
 // =============================================================================
-// CONFIGURACIÓN Y CONSTANTES
+// CONFIGURATION AND CONSTANTS
 // =============================================================================
 
 /**
- * Clave única para identificar nuestros datos en localStorage
- * Prefijo del proyecto para evitar colisiones con otras aplicaciones
+ * Unique key to identify our data in localStorage
+ * Project prefix to avoid collisions with other applications
  */
 const STORAGE_KEY = 'prosumia-coordinates' as const;
 
 // =============================================================================
-// SCHEMAS DE VALIDACIÓN CON ZOD
+// VALIDATION SCHEMAS WITH ZOD
 // =============================================================================
 
 /**
- * Schema para validar una coordenada individual cargada desde localStorage
- * Debe coincidir exactamente con nuestro modelo de dominio
+ * Schema to validate a single coordinate loaded from localStorage
+ * Must exactly match our domain model
  */
 const CoordinateSchema = z.object({
   x: z.number().int().min(0, "X coordinate must be a non-negative integer"),
@@ -44,104 +44,104 @@ const CoordinateSchema = z.object({
 });
 
 /**
- * Schema para validar el array completo de coordenadas
- * Permite arrays vacíos (caso válido cuando no hay datos guardados)
+ * Schema to validate the complete coordinates array
+ * Allows empty arrays (valid case when no data is saved)
  */
 const CoordinatesArraySchema = z.array(CoordinateSchema);
 
 // =============================================================================
-// IMPLEMENTACIÓN DEL REPOSITORY
+// REPOSITORY IMPLEMENTATION
 // =============================================================================
 
 /**
- * REPOSITORY DE LOCALSTORAGE PARA COORDENADAS
+ * LOCALSTORAGE REPOSITORY FOR COORDINATES
  *
- * Implementación concreta que maneja todos los casos edge:
- * - localStorage deshabilitado
- * - Datos corruptos o malformados
- * - Errores de serialización/deserialización
- * - Validación de integridad de datos
+ * Concrete implementation that handles all edge cases:
+ * - localStorage disabled
+ * - Corrupted or malformed data
+ * - Serialization/deserialization errors
+ * - Data integrity validation
  */
 export class LocalStorageRepository implements CoordinateRepository {
 
   /**
-   * GUARDAR COORDENADAS EN LOCALSTORAGE
+   * SAVE COORDINATES TO LOCALSTORAGE
    *
-   * Serializa y persiste las coordenadas de forma segura.
+   * Safely serializes and persists coordinates.
    *
-   * Casos manejados:
-   * - localStorage deshabilitado: retorna false
-   * - localStorage lleno: retorna false
-   * - Error de serialización: retorna false
+   * Handled cases:
+   * - localStorage disabled: returns false
+   * - localStorage full: returns false
+   * - Serialization error: returns false
    *
-   * @param coordinates - Lista de coordenadas a guardar
-   * @returns Promise que resuelve a true si se guardó exitosamente
+   * @param coordinates - List of coordinates to save
+   * @returns Promise that resolves to true if saved successfully
    */
   async save(coordinates: readonly Coordinate[]): Promise<boolean> {
     try {
-      // Serializamos a JSON string para localStorage
+      // Serialize to JSON string for localStorage
       const serialized = JSON.stringify(coordinates);
 
-      // Intentamos guardar - puede fallar por múltiples razones
+      // Try to save - may fail for multiple reasons
       localStorage.setItem(STORAGE_KEY, serialized);
 
-      // Si llegamos aquí, el guardado fue exitoso
+      // If we get here, save was successful
       return true;
 
-        } catch {
-      // Posibles errores:
-      // - localStorage deshabilitado (modo privado, políticas)
-      // - QuotaExceededError (localStorage lleno)
-      // - SecurityError (contexto inseguro)
-      // - Cualquier otro error inesperado
+    } catch {
+      // Possible errors:
+      // - localStorage disabled (private mode, policies)
+      // - QuotaExceededError (localStorage full)
+      // - SecurityError (insecure context)
+      // - Any other unexpected error
 
-      // En modo educativo podríamos hacer console.warn, pero en producción
-      // es mejor fallar silenciosamente y retornar false
+      // In educational mode we could do console.warn, but in production
+      // it's better to fail silently and return false
       return false;
     }
   }
 
   /**
-   * CARGAR COORDENADAS DESDE LOCALSTORAGE
+   * LOAD COORDINATES FROM LOCALSTORAGE
    *
-   * Deserializa y valida las coordenadas guardadas.
+   * Deserializes and validates saved coordinates.
    *
-   * Casos manejados:
-   * - No hay datos guardados: retorna []
-   * - localStorage deshabilitado: retorna []
-   * - JSON malformado: retorna []
-   * - Estructura incorrecta: retorna []
-   * - Validación Zod falla: retorna []
+   * Handled cases:
+   * - No saved data: returns []
+   * - localStorage disabled: returns []
+   * - Malformed JSON: returns []
+   * - Incorrect structure: returns []
+   * - Zod validation fails: returns []
    *
-   * @returns Promise con las coordenadas válidas o array vacío
+   * @returns Promise with valid coordinates or empty array
    */
   async load(): Promise<readonly Coordinate[]> {
     try {
-      // Intentamos obtener los datos guardados
+      // Try to get saved data
       const stored = localStorage.getItem(STORAGE_KEY);
 
-      // Si no hay datos guardados, retornamos array vacío (caso válido)
+      // If no saved data, return empty array (valid case)
       if (!stored) return [];
 
-      // Parseamos el JSON - puede fallar si está corrupto
+      // Parse JSON - may fail if corrupted
       const parsed = JSON.parse(stored);
 
-      // Validamos con Zod para asegurar integridad de datos
-      // Si los datos no cumplen el schema, parse() lanza excepción
+      // Validate with Zod to ensure data integrity
+      // If data doesn't match schema, parse() throws exception
       const validated = CoordinatesArraySchema.parse(parsed);
 
-      // Si llegamos aquí, los datos son válidos
+      // If we get here, data is valid
       return validated;
 
-        } catch {
-      // Posibles errores:
-      // - localStorage deshabilitado
-      // - JSON.parse() falló (datos corruptos)
-      // - Zod validation falló (estructura incorrecta)
-      // - Cualquier otro error inesperado
+    } catch {
+      // Possible errors:
+      // - localStorage disabled
+      // - JSON.parse() failed (corrupted data)
+      // - Zod validation failed (incorrect structure)
+      // - Any other unexpected error
 
-      // En todos los casos, retornamos array vacío como fallback seguro
-      // Esto evita que la aplicación crashee por datos corruptos
+      // In all cases, return empty array as safe fallback
+      // This prevents the app from crashing due to corrupted data
       return [];
     }
   }

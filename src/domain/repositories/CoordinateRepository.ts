@@ -1,58 +1,58 @@
 /**
- * REPOSITORY INTERFACE - CAPA DE DOMINIO
+ * REPOSITORY INTERFACE - DOMAIN LAYER
  *
- * ¿POR QUÉ LA INTERFACE ESTÁ EN DOMINIO PERO SE IMPLEMENTA EN INFRAESTRUCTURA?
+ * WHY IS THE INTERFACE IN DOMAIN BUT IMPLEMENTED IN INFRASTRUCTURE?
  *
- * Esta es la aplicación del Principio de Inversión de Dependencias (DIP):
+ * This is the application of the Dependency Inversion Principle (DIP):
  *
- * 1. PROBLEMA SIN DIP:
+ * 1. PROBLEM WITHOUT DIP:
  *    Domain ← Application ← Infrastructure ← Presentation
- *    El dominio dependería de infraestructura (localStorage, API, etc.)
- *    Esto viola Clean Architecture porque el dominio debe ser independiente.
+ *    Domain would depend on infrastructure (localStorage, API, etc.)
+ *    This violates Clean Architecture because domain should be independent.
  *
- * 2. SOLUCIÓN CON DIP:
- *    Domain (define interface) ← Application ← Infrastructure (implementa interface) ← Presentation
- *    El dominio define QUÉ necesita (interface)
- *    La infraestructura define CÓMO lo hace (implementación)
- *    Las dependencias apuntan hacia adentro, respetando Clean Architecture.
+ * 2. SOLUTION WITH DIP:
+ *    Domain (defines interface) ← Application ← Infrastructure (implements interface) ← Presentation
+ *    Domain defines WHAT it needs (interface)
+ *    Infrastructure defines HOW it does it (implementation)
+ *    Dependencies point inward, respecting Clean Architecture.
  *
- * 3. BENEFICIOS:
- *    - Dominio testeable sin dependencias externas
- *    - Fácil cambio de localStorage a API sin tocar dominio
- *    - Cumple SOLID principles (especialmente DIP)
- *    - Arquitectura robusta y mantenible
+ * 3. BENEFITS:
+ *    - Domain testable without external dependencies
+ *    - Easy to change from localStorage to API without touching domain
+ *    - Complies with SOLID principles (especially DIP)
+ *    - Robust and maintainable architecture
  */
 
 import type { Coordinate } from '../models/Coordinate';
 
 /**
- * CONTRATO DE PERSISTENCIA PARA COORDENADAS
+ * PERSISTENCE CONTRACT FOR COORDINATES
  *
- * Define las operaciones que necesita el dominio para persistir datos.
- * Esta interface será implementada en la capa de infraestructura,
- * manteniendo el dominio libre de conocimiento técnico específico.
+ * Defines the operations that the domain needs to persist data.
+ * This interface will be implemented in the infrastructure layer,
+ * keeping the domain free from specific technical knowledge.
  */
 export interface CoordinateRepository {
   /**
-   * PERSISTIR COORDENADAS
+   * PERSIST COORDINATES
    *
-   * Guarda una lista de coordenadas para uso futuro.
-   * El dominio no sabe SI es localStorage, API, archivo, etc.
-   * Solo sabe QUE puede guardar coordenadas.
+   * Saves a list of coordinates for future use.
+   * Domain doesn't know IF it's localStorage, API, file, etc.
+   * It only knows THAT it can save coordinates.
    *
-   * @param coordinates - Lista de coordenadas a persistir
-   * @returns Promise que resuelve a true si se guardó exitosamente
+   * @param coordinates - List of coordinates to persist
+   * @returns Promise that resolves to true if saved successfully
    */
   save(coordinates: readonly Coordinate[]): Promise<boolean>;
 
   /**
-   * CARGAR COORDENADAS PERSISTIDAS
+   * LOAD PERSISTED COORDINATES
    *
-   * Recupera la última lista de coordenadas guardada.
-   * Si no hay datos o hay error, retorna array vacío.
-   * El dominio no se preocupa por detalles de implementación.
+   * Retrieves the last saved list of coordinates.
+   * If there's no data or an error occurs, returns empty array.
+   * Domain doesn't worry about implementation details.
    *
-   * @returns Promise con las coordenadas o array vacío si no hay datos
+   * @returns Promise with coordinates or empty array if no data
    */
   load(): Promise<readonly Coordinate[]>;
 }

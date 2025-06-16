@@ -1,16 +1,16 @@
 /**
- * COMPONENTE: COORDINATE INPUT - CAPA DE PRESENTACIÓN
+ * COMPONENT: COORDINATE INPUT - PRESENTATION LAYER
  *
- * Componente para entrada de coordenadas con validación visual.
- * Proporciona feedback inmediato al usuario sobre la validez del JSON
- * y conecta directamente con el contexto global de la aplicación.
+ * Component for coordinate input with visual validation.
+ * Provides immediate feedback to the user about JSON validity
+ * and directly connects with the application's global context.
  *
- * CARACTERÍSTICAS IMPLEMENTADAS:
- * - Validación JSON en tiempo real
- * - Feedback visual (verde/rojo en border)
- * - Integración seamless con PathContext
- * - Manejo de errores user-friendly
- * - Ejemplo predeterminado
+ * IMPLEMENTED FEATURES:
+ * - Real-time JSON validation
+ * - Visual feedback (green/red border)
+ * - Seamless integration with PathContext
+ * - User-friendly error handling
+ * - Default example
  */
 
 import React from 'react';
@@ -18,13 +18,13 @@ import { useTranslation } from 'react-i18next';
 import { usePathContext } from '../context/PathContext';
 
 /**
- * FUNCIÓN HELPER: VALIDAR JSON
+ * HELPER FUNCTION: VALIDATE JSON
  *
- * Valida si un string es JSON válido sin usar try/catch
- * en el render (mejor performance y predictibilidad).
+ * Validates if a string is valid JSON without using try/catch
+ * in the render (better performance and predictability).
  *
- * @param jsonString - String a validar
- * @returns true si es JSON válido, false en caso contrario
+ * @param jsonString - String to validate
+ * @returns true if valid JSON, false otherwise
  */
 const isValidJSON = (jsonString: string): boolean => {
   if (!jsonString.trim()) return false;
@@ -40,18 +40,18 @@ const isValidJSON = (jsonString: string): boolean => {
 /**
  * COORDINATE INPUT COMPONENT
  *
- * Componente controlado que maneja la entrada de coordenadas.
- * Se integra con el contexto global para estado reactivo.
+ * Controlled component that handles coordinate input.
+ * Integrates with global context for reactive state.
  */
 export const CoordinateInput: React.FC = () => {
   const { state, dispatch, calculateMinimumPath } = usePathContext();
   const { t } = useTranslation();
 
   /**
-   * HANDLER: CAMBIO EN EL TEXTAREA
+   * HANDLER: TEXTAREA CHANGE
    *
-   * Actualiza el estado global cada vez que el usuario escribe.
-   * La validación visual se maneja en el render basada en el estado.
+   * Updates global state every time the user types.
+   * Visual validation is handled in render based on state.
    */
   const handleInputChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
     const value = event.target.value;
@@ -59,10 +59,10 @@ export const CoordinateInput: React.FC = () => {
   };
 
   /**
-   * HANDLER: CALCULAR PATH
+   * HANDLER: CALCULATE PATH
    *
-   * Ejecuta el cálculo solo si el JSON es válido.
-   * El loading state se maneja automáticamente en el contexto.
+   * Executes calculation only if JSON is valid.
+   * Loading state is automatically handled in context.
    */
   const handleCalculate = () => {
     if (isValidJSON(state.coordinatesJson)) {
@@ -71,9 +71,9 @@ export const CoordinateInput: React.FC = () => {
   };
 
   /**
-   * HANDLER: CARGAR EJEMPLO
+   * HANDLER: LOAD EXAMPLE
    *
-   * Carga un ejemplo educativo para que el usuario entienda el formato.
+   * Loads an educational example for the user to understand the format.
    */
   const handleLoadExample = () => {
     const exampleCoordinates = JSON.stringify([
@@ -85,11 +85,11 @@ export const CoordinateInput: React.FC = () => {
     dispatch({ type: 'SET_COORDINATES_JSON', payload: exampleCoordinates });
   };
 
-  // Determinar estado visual basado en validación
+  // Determine visual state based on validation
   const jsonIsValid = isValidJSON(state.coordinatesJson);
   const showValidation = state.coordinatesJson.trim().length > 0;
 
-  // Clases CSS dinámicas para feedback visual
+  // Dynamic CSS classes for visual feedback
   const textareaClasses = [
     'w-full p-4 border-2 rounded-lg font-mono text-sm transition-colors',
     'focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50',
@@ -100,7 +100,7 @@ export const CoordinateInput: React.FC = () => {
 
   return (
     <div className="space-y-4">
-      {/* TÍTULO DE LA SECCIÓN */}
+      {/* SECTION TITLE */}
       <div className="flex items-center justify-between">
         <h2 className="text-xl font-semibold text-gray-800">
           {t('coordinateInput.title')}
@@ -114,7 +114,7 @@ export const CoordinateInput: React.FC = () => {
         </button>
       </div>
 
-      {/* TEXTAREA PARA JSON */}
+      {/* JSON TEXTAREA */}
       <div className="relative">
         <textarea
           value={state.coordinatesJson}
@@ -125,8 +125,8 @@ export const CoordinateInput: React.FC = () => {
           disabled={state.isLoading}
         />
 
-        {/* INDICADOR VISUAL DE VALIDACIÓN */}
-                  {showValidation && (
+        {/* VALIDATION VISUAL INDICATOR */}
+        {showValidation && (
           <div className="absolute top-2 right-2">
             {jsonIsValid ? (
               <span className="text-green-600 text-lg" title={t('coordinateInput.validation.validJson')}>✓</span>
@@ -137,12 +137,12 @@ export const CoordinateInput: React.FC = () => {
         )}
       </div>
 
-      {/* INFORMACIÓN EDUCATIVA */}
+      {/* EDUCATIONAL INFORMATION */}
       <div className="text-sm text-gray-600 bg-blue-50 p-3 rounded-lg">
         💡 <strong>{t('coordinateInput.formatInfo')}</strong>
       </div>
 
-      {/* BOTÓN DE CÁLCULO */}
+      {/* CALCULATION BUTTON */}
       <button
         onClick={handleCalculate}
         disabled={!jsonIsValid || state.isLoading}
@@ -168,7 +168,7 @@ export const CoordinateInput: React.FC = () => {
         )}
       </button>
 
-      {/* MOSTRAR ERRORES SI EXISTEN */}
+      {/* SHOW ERRORS IF THEY EXIST */}
       {state.error && (
         <div className="p-4 bg-red-50 border border-red-200 rounded-lg">
           <div className="flex items-start">
@@ -181,7 +181,7 @@ export const CoordinateInput: React.FC = () => {
         </div>
       )}
 
-      {/* MOSTRAR RESULTADO SI EXISTE */}
+      {/* SHOW RESULT IF IT EXISTS */}
       {state.coordinates.length > 0 && !state.error && (
         <div className="p-4 bg-green-50 border border-green-200 rounded-lg">
           <div className="flex items-center">

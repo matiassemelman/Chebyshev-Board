@@ -1,16 +1,16 @@
 /**
- * CONTEXTO GLOBAL DE ESTADO - CAPA DE PRESENTACIÓN
+ * GLOBAL STATE CONTEXT - PRESENTATION LAYER
  *
- * Maneja el estado completo de la aplicación de visualización de paths.
- * Utiliza useReducer para estado complejo relacionado y se integra con
- * la capa de infraestructura para persistencia.
+ * Manages the complete state of the path visualization application.
+ * Uses useReducer for complex related state and integrates with
+ * the infrastructure layer for persistence.
  *
- * ¿POR QUÉ CONTEXT + USEREDUCER EN LUGAR DE USESTATE?
- * - Múltiples valores de estado relacionados (coordenadas, pasos, error, carga)
- * - Transiciones de estado complejas que necesitan ser atómicas
- * - Actualizaciones de estado predecibles a través de acciones
- * - Mejores capacidades de depuración y pruebas
- * - Separación de responsabilidades: reducer maneja el "cómo", componentes manejan el "qué"
+ * WHY CONTEXT + USEREDUCER INSTEAD OF USESTATE?
+ * - Multiple related state values (coordinates, steps, error, loading)
+ * - Complex state transitions that need to be atomic
+ * - Predictable state updates through actions
+ * - Better debugging and testing capabilities
+ * - Separation of concerns: reducer handles the "how", components handle the "what"
  */
 
 import React, { createContext, useContext, useReducer, useEffect, type ReactNode } from 'react';
@@ -19,12 +19,12 @@ import { LocalStorageRepository } from '../../infrastructure/persistence/LocalSt
 import { calculatePath } from '../../application/usecases/CalculatePathUseCase';
 
 // =============================================================================
-// DEFINICIÓN DEL ESTADO
+// STATE DEFINITION
 // =============================================================================
 
 /**
- * Estado global de la aplicación de pathfinding
- * Immutable por diseño - todas las propiedades son readonly
+ * Global state of the pathfinding application
+ * Immutable by design - all properties are readonly
  */
 export interface PathState {
   readonly coordinates: readonly Coordinate[];
@@ -35,8 +35,8 @@ export interface PathState {
 }
 
 /**
- * Estado inicial de la aplicación
- * Valores seguros y predecibles para el inicio
+ * Initial application state
+ * Safe and predictable values for startup
  */
 const initialState: PathState = {
   coordinates: [],
@@ -47,12 +47,12 @@ const initialState: PathState = {
 };
 
 // =============================================================================
-// DEFINICIÓN DE ACCIONES
+// ACTION DEFINITIONS
 // =============================================================================
 
 /**
- * Acciones disponibles para modificar el estado
- * Siguiendo patrón Redux para predictibilidad
+ * Available actions to modify the state
+ * Following Redux pattern for predictability
  */
 export type PathAction =
   | { type: 'SET_COORDINATES_JSON'; payload: string }
@@ -62,18 +62,18 @@ export type PathAction =
   | { type: 'LOAD_FROM_STORAGE'; payload: readonly Coordinate[] };
 
 // =============================================================================
-// IMPLEMENTACIÓN DEL REDUCER
+// REDUCER IMPLEMENTATION
 // =============================================================================
 
 /**
- * REDUCER PURO PARA MANEJO DE ESTADO
+ * PURE REDUCER FOR STATE MANAGEMENT
  *
- * Implementa todas las transiciones de estado de forma predecible.
- * Cada acción produce un nuevo estado inmutable.
+ * Implements all state transitions in a predictable way.
+ * Each action produces a new immutable state.
  *
- * @param state - Estado actual
- * @param action - Acción a ejecutar
- * @returns Nuevo estado inmutable
+ * @param state - Current state
+ * @param action - Action to execute
+ * @returns New immutable state
  */
 const pathReducer = (state: PathState, action: PathAction): PathState => {
   switch (action.type) {
@@ -81,7 +81,7 @@ const pathReducer = (state: PathState, action: PathAction): PathState => {
       return {
         ...state,
         coordinatesJson: action.payload,
-        error: null // Limpiar errores previos cuando el usuario escribe
+        error: null // Clear previous errors when user types
       };
 
     case 'CALCULATE_START':
@@ -120,12 +120,12 @@ const pathReducer = (state: PathState, action: PathAction): PathState => {
 };
 
 // =============================================================================
-// CREACIÓN DEL CONTEXTO
+// CONTEXT CREATION
 // =============================================================================
 
 /**
- * Contexto que expone el estado y las acciones
- * Incluye tanto el estado como el dispatch para las acciones
+ * Context that exposes state and actions
+ * Includes both state and dispatch for actions
  */
 interface PathContextValue {
   readonly state: PathState;
@@ -136,18 +136,18 @@ interface PathContextValue {
 const PathContext = createContext<PathContextValue | null>(null);
 
 // =============================================================================
-// COMPONENTE PROVIDER
+// PROVIDER COMPONENT
 // =============================================================================
 
 /**
- * PROVIDER DEL CONTEXTO DE PATH
+ * PATH CONTEXT PROVIDER
  *
- * Componente que provee el estado global a toda la aplicación.
- * Se encarga de:
- * - Inicializar el reducer
- * - Cargar datos persistidos al montar
- * - Persistir cambios automáticamente
- * - Exponer funciones helper para las acciones comunes
+ * Component that provides global state to the entire application.
+ * Handles:
+ * - Reducer initialization
+ * - Loading persisted data on mount
+ * - Automatic persistence of changes
+ * - Exposing helper functions for common actions
  */
 interface PathProviderProps {
   readonly children: ReactNode;
@@ -158,10 +158,10 @@ export const PathProvider: React.FC<PathProviderProps> = ({ children }) => {
   const repository = new LocalStorageRepository();
 
   /**
-   * EFECTO: CARGAR DATOS PERSISTIDOS AL MONTAR
+   * EFFECT: LOAD PERSISTED DATA ON MOUNT
    *
-   * Se ejecuta una sola vez al montar el componente
-   * para restaurar el estado desde localStorage
+   * Runs only once when the component mounts
+   * to restore state from localStorage
    */
   useEffect(() => {
     const loadPersistedData = async () => {
@@ -171,9 +171,9 @@ export const PathProvider: React.FC<PathProviderProps> = ({ children }) => {
           dispatch({ type: 'LOAD_FROM_STORAGE', payload: savedCoordinates });
         }
       } catch (error) {
-        // Si falla la carga, continuamos con estado inicial
-        // No mostramos error porque no es crítico
-        console.warn('Error al cargar coordenadas persistidas:', error);
+        // If loading fails, continue with initial state
+        // No error shown as it's not critical
+        console.warn('Error loading persisted coordinates:', error);
       }
     };
 
@@ -181,10 +181,10 @@ export const PathProvider: React.FC<PathProviderProps> = ({ children }) => {
   }, []);
 
   /**
-   * EFECTO: PERSISTIR COORDENADAS CUANDO CAMBIAN
+   * EFFECT: PERSIST COORDINATES WHEN THEY CHANGE
    *
-   * Cada vez que las coordenadas cambian exitosamente,
-   * las guardamos en localStorage para la próxima sesión
+   * Every time coordinates change successfully,
+   * we save them to localStorage for the next session
    */
   useEffect(() => {
     const persistCoordinates = async () => {
@@ -192,7 +192,7 @@ export const PathProvider: React.FC<PathProviderProps> = ({ children }) => {
         try {
           await repository.save(state.coordinates);
         } catch (error) {
-          console.warn('Error al persistir coordenadas:', error);
+          console.warn('Error persisting coordinates:', error);
         }
       }
     };
@@ -201,10 +201,10 @@ export const PathProvider: React.FC<PathProviderProps> = ({ children }) => {
   }, [state.coordinates]);
 
   /**
-   * FUNCIÓN HELPER: CALCULAR PATH MÍNIMO
+   * HELPER FUNCTION: CALCULATE MINIMUM PATH
    *
-   * Encapsula la lógica de cálculo integrando con el caso de uso.
-   * Maneja el flujo completo: carga → cálculo → resultado/error
+   * Encapsulates calculation logic integrating with the use case.
+   * Handles the complete flow: loading → calculation → result/error
    */
   const calculateMinimumPath = () => {
     dispatch({ type: 'CALCULATE_START' });
@@ -226,12 +226,12 @@ export const PathProvider: React.FC<PathProviderProps> = ({ children }) => {
     } catch {
       dispatch({
         type: 'CALCULATE_ERROR',
-        payload: 'Ocurrió un error inesperado durante el cálculo'
+        payload: 'An unexpected error occurred during calculation'
       });
     }
   };
 
-  // Valor del contexto que se expone a los componentes
+  // Context value exposed to components
   const contextValue: PathContextValue = {
     state,
     dispatch,
@@ -246,25 +246,25 @@ export const PathProvider: React.FC<PathProviderProps> = ({ children }) => {
 };
 
 // =============================================================================
-// HOOK PERSONALIZADO PARA CONSUMIR EL CONTEXTO
+// CUSTOM HOOK FOR CONSUMING THE CONTEXT
 // =============================================================================
 
 /**
- * HOOK PERSONALIZADO PARA CONSUMIR EL CONTEXTO
+ * CUSTOM HOOK FOR CONSUMING THE CONTEXT
  *
- * Proporciona una API limpia y type-safe para acceder al estado global.
- * Incluye validación automática de que el hook se use dentro del Provider.
+ * Provides a clean and type-safe API to access global state.
+ * Includes automatic validation to ensure the hook is used within the Provider.
  *
- * @returns Estado y funciones del contexto de path
- * @throws Error si se usa fuera del PathProvider
+ * @returns State and functions of the path context
+ * @throws Error if used outside the PathProvider
  */
 export const usePathContext = (): PathContextValue => {
   const context = useContext(PathContext);
 
   if (!context) {
     throw new Error(
-      'usePathContext debe ser usado dentro de un PathProvider. ' +
-      'Asegúrate de envolver tu árbol de componentes con <PathProvider>.'
+      'usePathContext must be used within a PathProvider. ' +
+      'Ensure you wrap your component tree with <PathProvider>.'
     );
   }
 

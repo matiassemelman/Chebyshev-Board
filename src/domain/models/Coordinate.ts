@@ -1,48 +1,48 @@
 /**
- * MODELO DE DOMINIO: Coordinate
+ * DOMAIN MODEL: Coordinate
  *
- * Representa una posición en un tablero 2D para el cálculo de distancias mínimas.
- * Este modelo es el corazón de nuestro algoritmo Chebyshev y debe mantenerse
- * completamente puro sin dependencias externas (Clean Architecture).
+ * Represents a position in a 2D board for minimum distance calculation.
+ * This model is the heart of our Chebyshev algorithm and must remain
+ * completely pure without external dependencies (Clean Architecture).
  */
 
-// Definimos el tipo principal como readonly para garantizar inmutabilidad
-// Esto previene mutaciones accidentales que podrían corromper el estado
+// Define main type as readonly to ensure immutability
+// This prevents accidental mutations that could corrupt state
 export type Coordinate = {
   readonly x: number;
   readonly y: number;
 };
 
 /**
- * VALIDACIÓN PURA DE COORDENADAS
+ * PURE COORDINATE VALIDATION
  *
- * Valida que una coordenada sea válida para nuestro tablero.
- * Esta función es pura (sin side effects) y se mantiene en dominio
- * porque representa una regla de negocio fundamental.
+ * Validates that a coordinate is valid for our board.
+ * This function is pure (no side effects) and stays in domain
+ * because it represents a fundamental business rule.
  *
- * @param coord - La coordenada a validar
- * @returns true si la coordenada es válida, false en caso contrario
+ * @param coord - The coordinate to validate
+ * @returns true if the coordinate is valid, false otherwise
  */
 export const isValidCoordinate = (coord: Coordinate): boolean => {
-  // Verificamos que x e y sean un número entero (no decimal ni NaN)
+  // Verify that x and y are integers (not decimal or NaN)
   const isXValid = Number.isInteger(coord.x) && coord.x >= 0;
 
   const isYValid = Number.isInteger(coord.y) && coord.y >= 0;
 
-  // Ambas coordenadas deben ser válidas para que el punto sea válido
+  // Both coordinates must be valid for the point to be valid
   return isXValid && isYValid;
 };
 
 /**
- * FACTORY FUNCTION PARA CREAR COORDENADAS
+ * FACTORY FUNCTION TO CREATE COORDINATES
  *
- * Patrón Factory que encapsula la creación de coordenadas.
- * Esto nos da control sobre cómo se construyen los objetos
- * y facilita futuras extensiones (ej: validación automática).
+ * Factory pattern that encapsulates coordinate creation.
+ * This gives us control over how objects are constructed
+ * and facilitates future extensions (e.g., automatic validation).
  *
- * @param x - Posición horizontal (columna)
- * @param y - Posición vertical (fila)
- * @returns Nueva coordenada inmutable
+ * @param x - Horizontal position (column)
+ * @param y - Vertical position (row)
+ * @returns New immutable coordinate
  */
 export const createCoordinate = (x: number, y: number): Coordinate => ({
   x,

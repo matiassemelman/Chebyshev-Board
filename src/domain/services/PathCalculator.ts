@@ -1,79 +1,79 @@
 /**
- * SERVICIO DE DOMINIO: PathCalculator
+ * DOMAIN SERVICE: PathCalculator
  *
- * Implementa el algoritmo de distancia Chebyshev para calcular el número
- * mínimo de pasos entre coordenadas en un tablero donde se puede mover
- * en las 8 direcciones (horizontal, vertical y diagonal).
+ * Implements the Chebyshev distance algorithm to calculate the minimum
+ * number of steps between coordinates on a board where movement is allowed
+ * in 8 directions (horizontal, vertical and diagonal).
  *
- * La distancia Chebyshev es: max(|dx|, |dy|)
- * Esto es más eficiente que algoritmos de pathfinding como A* o BFS
- * porque aprovechamos que el movimiento diagonal no cuesta extra.
+ * Chebyshev distance is: max(|dx|, |dy|)
+ * This is more efficient than pathfinding algorithms like A* or BFS
+ * because we take advantage that diagonal movement has no extra cost.
  */
 
 import type { Coordinate } from '../models/Coordinate';
 
 /**
- * CÁLCULO DE DISTANCIA CHEBYSHEV ENTRE DOS PUNTOS
+ * CHEBYSHEV DISTANCE CALCULATION BETWEEN TWO POINTS
  *
- * Esta es la función core del algoritmo. La distancia Chebyshev
- * representa el número mínimo de pasos para ir de un punto A a un punto B
- * cuando puedes moverte en las 8 direcciones (incluidas diagonales).
+ * This is the core function of the algorithm. The Chebyshev distance
+ * represents the minimum number of steps to go from point A to point B
+ * when you can move in 8 directions (including diagonals).
  *
- * ¿Por qué max(|dx|, |dy|)?
- * - Si dx=3, dy=2: puedes moverte 2 pasos en diagonal (NE) y 1 paso horizontal (E)
- * - Total: max(3,2) = 3 pasos
+ * Why max(|dx|, |dy|)?
+ * - If dx=3, dy=2: you can move 2 steps diagonally (NE) and 1 step horizontally (E)
+ * - Total: max(3,2) = 3 steps
  *
- * @param from - Coordenada de origen
- * @param to - Coordenada de destino
- * @returns Número mínimo de pasos entre los dos puntos
+ * @param from - Source coordinate
+ * @param to - Destination coordinate
+ * @returns Minimum number of steps between the two points
  */
 export const calculateChebyshevDistance = (from: Coordinate, to: Coordinate): number => {
-  // Calculamos la diferencia absoluta en el eje X (horizontal)
-  // Math.abs() asegura que siempre sea positivo independientemente de la dirección
+  // Calculate absolute difference in X axis (horizontal)
+  // Math.abs() ensures it's always positive regardless of direction
   const dx = Math.abs(to.x - from.x);
 
-  // Calculamos la diferencia absoluta en el eje Y (vertical)
+  // Calculate absolute difference in Y axis (vertical)
   const dy = Math.abs(to.y - from.y);
 
-  // La distancia Chebyshev es el máximo de ambas diferencias
-  // Esto representa los pasos mínimos aprovechando el movimiento diagonal
+  // Chebyshev distance is the maximum of both differences
+  // This represents minimum steps taking advantage of diagonal movement
   return Math.max(dx, dy);
 };
 
 /**
- * CÁLCULO DE PASOS MÍNIMOS PARA UNA SECUENCIA DE COORDENADAS
+ * MINIMUM STEPS CALCULATION FOR A SEQUENCE OF COORDINATES
  *
- * Dada una lista de coordenadas que deben visitarse EN ORDEN,
- * calcula el total de pasos mínimos para completar el recorrido.
+ * Given a list of coordinates that must be visited IN ORDER,
+ * calculates the total minimum steps to complete the path.
  *
- * Ejemplo: [(0,0), (1,2), (3,1)]
- * - De (0,0) a (1,2): max(|1-0|, |2-0|) = max(1,2) = 2 pasos
- * - De (1,2) a (3,1): max(|3-1|, |1-2|) = max(2,1) = 2 pasos
- * - Total: 2 + 2 = 4 pasos
+ * Example: [(0,0), (1,2), (3,1)]
+ * - From (0,0) to (1,2): max(|1-0|, |2-0|) = max(1,2) = 2 steps
+ * - From (1,2) to (3,1): max(|3-1|, |1-2|) = max(2,1) = 2 steps
+ * - Total: 2 + 2 = 4 steps
  *
- * @param coordinates - Array de coordenadas a visitar en orden
- * @returns Número total de pasos mínimos para el recorrido completo
+ * @param coordinates - Array of coordinates to visit in order
+ * @returns Total minimum steps for the complete path
  */
 export const calculateMinimumSteps = (coordinates: Coordinate[]): number => {
-  // Caso edge: si hay 0 o 1 coordenadas, no hay recorrido que hacer
+  // Edge case: if there are 0 or 1 coordinates, there's no path to make
   if (coordinates.length <= 1) return 0;
 
-  // Acumulador para sumar todos los pasos del recorrido
+  // Accumulator to sum all steps in the path
   let totalSteps = 0;
 
-  // Iteramos desde la segunda coordenada (índice 1) hasta el final
-  // En cada iteración calculamos la distancia desde la coordenada anterior
+  // Iterate from the second coordinate (index 1) to the end
+  // In each iteration we calculate the distance from the previous coordinate
   for (let i = 1; i < coordinates.length; i++) {
-    // Coordenada actual (destino del paso)
+    // Current coordinate (step destination)
     const currentCoord = coordinates[i];
 
-    // Coordenada anterior (origen del paso)
+    // Previous coordinate (step origin)
     const previousCoord = coordinates[i - 1];
 
-    // Calculamos los pasos entre estas dos coordenadas y los sumamos al total
+    // Calculate steps between these two coordinates and add to total
     totalSteps += calculateChebyshevDistance(previousCoord, currentCoord);
   }
 
-  // Retornamos el total de pasos para completar todo el recorrido
+  // Return total steps to complete the entire path
   return totalSteps;
 };

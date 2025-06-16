@@ -1,9 +1,9 @@
 /**
- * CAPA DE APLICACIÓN: CalculatePathUseCase
+ * APPLICATION LAYER: CalculatePathUseCase
  *
- * Orquesta la validación de input del usuario y la lógica de dominio.
- * Esta capa actúa como puente entre la presentación y el dominio,
- * asegurando que los datos lleguen limpios y validados.
+ * Orchestrates user input validation and domain logic.
+ * This layer acts as a bridge between presentation and domain,
+ * ensuring data arrives clean and validated.
  */
 
 import { z } from 'zod';
@@ -12,12 +12,12 @@ import { isValidCoordinate } from '../../domain/models/Coordinate';
 import { calculateMinimumSteps } from '../../domain/services/PathCalculator';
 
 // =============================================================================
-// SCHEMAS DE VALIDACIÓN CON ZOD
+// VALIDATION SCHEMAS WITH ZOD
 // =============================================================================
 
 /**
- * Schema para validar una coordenada individual
- * Debe ser un objeto con x e y como números enteros no negativos
+ * Schema to validate a single coordinate
+ * Must be an object with x and y as non-negative integers
  */
 const CoordinateSchema = z.object({
   x: z.number().int().min(0, "errors.validation.invalidCoordinate"),
@@ -28,8 +28,8 @@ const CoordinateSchema = z.object({
 );
 
 /**
- * Schema para validar un array de coordenadas
- * Debe tener al menos 1 coordenada para ser útil
+ * Schema to validate a coordinates array
+ * Must have at least 1 coordinate to be useful
  */
 const CoordinatesArraySchema = z
   .array(CoordinateSchema)
@@ -40,14 +40,14 @@ const CoordinatesArraySchema = z
 // =============================================================================
 
 /**
- * Input del use case - lo que recibe desde la capa de presentación
+ * Use case input - what it receives from the presentation layer
  */
 export type CalculatePathInput = {
   readonly coordinatesJson: string;
 };
 
 /**
- * Output del use case - lo que devuelve a la capa de presentación
+ * Use case output - what it returns to the presentation layer
  */
 export type CalculatePathOutput = {
   readonly success: true;
@@ -59,24 +59,24 @@ export type CalculatePathOutput = {
 };
 
 // =============================================================================
-// USE CASE PRINCIPAL
+// MAIN USE CASE
 // =============================================================================
 
 /**
- * CASO DE USO: Calcular Recorrido Mínimo
+ * USE CASE: Calculate Minimum Path
  *
- * Orquesta todo el flujo desde input crudo hasta resultado final:
- * 1. Parse del JSON string
- * 2. Validación con Zod
- * 3. Llamada al servicio de dominio
- * 4. Formateo del resultado
+ * Orchestrates the entire flow from raw input to final result:
+ * 1. JSON string parsing
+ * 2. Zod validation
+ * 3. Domain service call
+ * 4. Result formatting
  *
- * @param input - JSON string con coordenadas del usuario
- * @returns Resultado exitoso con pasos o error descriptivo
+ * @param input - JSON string with user coordinates
+ * @returns Successful result with steps or descriptive error
  */
 export const calculatePath = (input: CalculatePathInput): CalculatePathOutput => {
   try {
-    // PASO 1: Parse del JSON string
+    // STEP 1: JSON string parsing
     let parsedData: unknown;
     try {
       parsedData = JSON.parse(input.coordinatesJson);
@@ -87,7 +87,7 @@ export const calculatePath = (input: CalculatePathInput): CalculatePathOutput =>
       };
     }
 
-    // PASO 2: Validación con Zod
+    // STEP 2: Zod validation
     const validationResult = CoordinatesArraySchema.safeParse(parsedData);
 
     if (!validationResult.success) {
@@ -101,11 +101,11 @@ export const calculatePath = (input: CalculatePathInput): CalculatePathOutput =>
       };
     }
 
-    // PASO 3: Llamada al servicio de dominio
+    // STEP 3: Domain service call
     const coordinates = validationResult.data as readonly Coordinate[];
     const totalSteps = calculateMinimumSteps([...coordinates]);
 
-    // PASO 4: Retorno exitoso
+    // STEP 4: Successful return
     return {
       success: true,
       coordinates,
@@ -113,7 +113,7 @@ export const calculatePath = (input: CalculatePathInput): CalculatePathOutput =>
     };
 
   } catch {
-    // Manejo de errores inesperados
+    // Unexpected error handling
     return {
       success: false,
       error: "errors.unexpected"

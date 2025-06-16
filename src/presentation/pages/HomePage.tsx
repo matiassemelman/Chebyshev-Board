@@ -1,20 +1,20 @@
 /**
- * PÁGINA PRINCIPAL - CAPA DE PRESENTACIÓN
+ * MAIN PAGE - PRESENTATION LAYER
  *
- * Compone la funcionalidad específica del visualizador de pathfinding.
- * Se encarga de la estructura y layout educativo de la aplicación.
+ * Composes the specific functionality of the pathfinding visualizer.
+ * Handles the educational structure and layout of the application.
  *
- * RESPONSABILIDADES:
- * - Componer CoordinateInput y Board en layout responsive
- * - Proporcionar estructura educativa cohesiva
- * - Manejar el flujo visual de la aplicación específica
- * - Mantener separación de responsabilidades dentro de presentación
+ * RESPONSIBILITIES:
+ * - Compose CoordinateInput and Board in responsive layout
+ * - Provide cohesive educational structure
+ * - Handle specific application visual flow
+ * - Maintain separation of concerns within presentation
  *
- * ¿POR QUÉ SEPARADO DE APP.tsx?
- * - App.tsx = infraestructura (providers, configuración global)
- * - HomePage.tsx = lógica específica de presentación
- * - Facilita escalabilidad (multiple páginas en el futuro)
- * - Respeta Clean Architecture: separación de concerns
+ * WHY SEPARATED FROM APP.tsx?
+ * - App.tsx = infrastructure (providers, global configuration)
+ * - HomePage.tsx = specific presentation logic
+ * - Facilitates scalability (multiple pages in the future)
+ * - Respects Clean Architecture: separation of concerns
  */
 
 import React from 'react';
@@ -26,8 +26,8 @@ import { LanguageSwitcher } from '../components/LanguageSwitcher';
 /**
  * HOME PAGE COMPONENT
  *
- * Página principal que orquesta la experiencia completa del usuario.
- * Compone los componentes de input y visualización en un layout educativo.
+ * Main page that orchestrates the complete user experience.
+ * Composes input and visualization components in an educational layout.
  */
 export const HomePage: React.FC = () => {
   const { t } = useTranslation();
@@ -37,7 +37,7 @@ export const HomePage: React.FC = () => {
         <LanguageSwitcher />
       </div>
       <main className="space-y-8">
-        {/* SECCIÓN EDUCATIVA INTRODUCTORIA */}
+        {/* INTRODUCTORY EDUCATIONAL SECTION */}
         <section className="text-center space-y-4">
           <div className="bg-blue-50 border border-blue-200 rounded-lg p-6">
             <h2 className="text-xl font-semibold text-blue-800 mb-3">
@@ -52,20 +52,20 @@ export const HomePage: React.FC = () => {
           </div>
         </section>
 
-        {/* LAYOUT PRINCIPAL - GRID RESPONSIVE */}
+        {/* MAIN LAYOUT - RESPONSIVE GRID */}
         <div className="grid lg:grid-cols-2 gap-8">
-          {/* COLUMNA IZQUIERDA: ENTRADA DE COORDENADAS */}
+          {/* LEFT COLUMN: COORDINATE INPUT */}
           <section className="space-y-4">
             <CoordinateInput />
           </section>
 
-          {/* COLUMNA DERECHA: VISUALIZACIÓN DEL TABLERO */}
+          {/* RIGHT COLUMN: BOARD VISUALIZATION */}
           <section className="space-y-4">
             <Board />
           </section>
         </div>
 
-        {/* SECCIÓN EDUCATIVA FINAL */}
+        {/* FINAL EDUCATIONAL SECTION */}
         <section className="mt-12">
           <div className="bg-gray-50 border border-gray-200 rounded-lg p-6">
             <h3 className="text-lg font-semibold text-gray-800 mb-3">

@@ -2,11 +2,11 @@ import React, { createContext, useContext, useState, type ReactNode, useCallback
 import { useTranslation } from 'react-i18next';
 
 // =============================================================================
-// DEFINICIÓN DEL ESTADO Y CONTEXTO
+// STATE AND CONTEXT DEFINITION
 // =============================================================================
 
 /**
- * Define la forma del valor del contexto del idioma.
+ * Defines the shape of the language context value.
  */
 interface LanguageContextValue {
   readonly language: string;
@@ -14,13 +14,13 @@ interface LanguageContextValue {
 }
 
 /**
- * Creación del Contexto de React.
- * Se inicializa con `null` y se proveerá un valor real en el Provider.
+ * React Context creation.
+ * Initialized with `null` and will be provided with a real value in the Provider.
  */
 const LanguageContext = createContext<LanguageContextValue | null>(null);
 
 // =============================================================================
-// COMPONENTE PROVIDER
+// PROVIDER COMPONENT
 // =============================================================================
 
 interface LanguageProviderProps {
@@ -28,16 +28,16 @@ interface LanguageProviderProps {
 }
 
 /**
- * Provider que encapsula la lógica para gestionar el idioma de la aplicación.
+ * Provider that encapsulates the logic for managing the application's language.
  */
 export const LanguageProvider: React.FC<LanguageProviderProps> = ({ children }) => {
   const { i18n } = useTranslation();
   const [language, setLang] = useState(i18n.language);
 
   /**
-   * Cambia el idioma de la aplicación.
-   * La función está envuelta en `useCallback` para evitar re-renders innecesarios
-   * en los componentes consumidores si la función se pasara como prop.
+   * Changes the application's language.
+   * The function is wrapped in `useCallback` to prevent unnecessary re-renders
+   * in consumer components if the function is passed as a prop.
    */
   const setLanguage = useCallback((newLanguage: 'en' | 'es') => {
     i18n.changeLanguage(newLanguage);
@@ -57,17 +57,17 @@ export const LanguageProvider: React.FC<LanguageProviderProps> = ({ children }) 
 };
 
 // =============================================================================
-// HOOK PERSONALIZADO
+// CUSTOM HOOK
 // =============================================================================
 
 /**
- * Hook personalizado para acceder fácilmente al contexto del idioma.
- * Proporciona una capa de abstracción y asegura que el contexto no sea `null`.
+ * Custom hook to easily access the language context.
+ * Provides an abstraction layer and ensures the context is not `null`.
  */
 export const useLanguage = (): LanguageContextValue => {
   const context = useContext(LanguageContext);
   if (!context) {
-    throw new Error('useLanguage debe ser usado dentro de un LanguageProvider');
+    throw new Error('useLanguage must be used within a LanguageProvider');
   }
   return context;
 };

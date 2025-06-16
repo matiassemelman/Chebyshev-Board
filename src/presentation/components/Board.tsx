@@ -1,16 +1,16 @@
 /**
- * COMPONENTE: BOARD - CAPA DE PRESENTACIÓN
+ * COMPONENT: BOARD - PRESENTATION LAYER
  *
- * Tablero dinámico que visualiza las coordenadas y el recorrido mínimo.
- * Se adapta automáticamente al tamaño necesario basado en las coordenadas
- * y proporciona una representación visual educativa del algoritmo Chebyshev.
+ * Dynamic board that visualizes coordinates and minimum path.
+ * Automatically adapts to the required size based on coordinates
+ * and provides an educational visual representation of the Chebyshev algorithm.
  *
- * CARACTERÍSTICAS IMPLEMENTADAS:
- * - Grid dinámico que se ajusta a las coordenadas máximas
- * - Numeración de orden de visita en cada coordenada
- * - Colores diferenciados para start, intermediate y end points
- * - Responsive design con TailwindCSS
- * - Información educativa del recorrido
+ * IMPLEMENTED FEATURES:
+ * - Dynamic grid that adjusts to maximum coordinates
+ * - Visit order numbering in each coordinate
+ * - Different colors for start, intermediate and end points
+ * - Responsive design with TailwindCSS
+ * - Educational path information
  */
 
 import React from 'react';
@@ -19,23 +19,23 @@ import type { Coordinate } from '../../domain/models/Coordinate';
 import { usePathContext } from '../context/PathContext';
 
 /**
- * FUNCIÓN HELPER: CALCULAR DIMENSIONES DEL TABLERO
+ * HELPER FUNCTION: CALCULATE BOARD DIMENSIONS
  *
- * Determina el tamaño mínimo del tablero necesario para mostrar
- * todas las coordenadas con un padding visual.
+ * Determines the minimum board size needed to display
+ * all coordinates with visual padding.
  *
- * @param coordinates - Array de coordenadas a mostrar
- * @returns Objeto con width y height del tablero
+ * @param coordinates - Array of coordinates to display
+ * @returns Object with board width and height
  */
 const calculateBoardDimensions = (coordinates: readonly Coordinate[]) => {
   if (coordinates.length === 0) {
-    return { width: 8, height: 8 }; // Tablero por defecto 8x8
+    return { width: 8, height: 8 }; // Default 8x8 board
   }
 
   const maxX = Math.max(...coordinates.map(coord => coord.x));
   const maxY = Math.max(...coordinates.map(coord => coord.y));
 
-  // Añadimos 1 para incluir la coordenada máxima y padding mínimo
+  // Add 1 to include maximum coordinate and minimum padding
   return {
     width: Math.max(maxX + 2, 8),
     height: Math.max(maxY + 2, 8)
@@ -43,15 +43,15 @@ const calculateBoardDimensions = (coordinates: readonly Coordinate[]) => {
 };
 
 /**
- * FUNCIÓN HELPER: OBTENER INFORMACIÓN DE CELDA
+ * HELPER FUNCTION: GET CELL INFORMATION
  *
- * Determina si una celda contiene una coordenada visitada
- * y en qué orden fue visitada.
+ * Determines if a cell contains a visited coordinate
+ * and in what order it was visited.
  *
- * @param x - Coordenada X de la celda
- * @param y - Coordenada Y de la celda
- * @param coordinates - Array de coordenadas del recorrido
- * @returns Información de la celda o null si está vacía
+ * @param x - Cell X coordinate
+ * @param y - Cell Y coordinate
+ * @param coordinates - Array of path coordinates
+ * @returns Cell information or null if empty
  */
 const getCellInfo = (x: number, y: number, coordinates: readonly Coordinate[]) => {
   const index = coordinates.findIndex(coord => coord.x === x && coord.y === y);
@@ -59,7 +59,7 @@ const getCellInfo = (x: number, y: number, coordinates: readonly Coordinate[]) =
   if (index === -1) return null;
 
   return {
-    order: index + 1, // 1-indexed para mostrar al usuario
+    order: index + 1, // 1-indexed for user display
     isStart: index === 0,
     isEnd: index === coordinates.length - 1,
     isIntermediate: index > 0 && index < coordinates.length - 1
@@ -67,13 +67,13 @@ const getCellInfo = (x: number, y: number, coordinates: readonly Coordinate[]) =
 };
 
 /**
- * FUNCIÓN HELPER: OBTENER CLASES CSS DE CELDA
+ * HELPER FUNCTION: GET CELL CSS CLASSES
  *
- * Determina las clases CSS apropiadas para una celda
- * basada en su estado (vacía, start, intermediate, end).
+ * Determines the appropriate CSS classes for a cell
+ * based on its state (empty, start, intermediate, end).
  *
- * @param cellInfo - Información de la celda
- * @returns String con las clases CSS
+ * @param cellInfo - Cell information
+ * @returns String with CSS classes
  */
 const getCellClasses = (cellInfo: ReturnType<typeof getCellInfo>): string => {
   const baseClasses = 'aspect-square border border-gray-200 flex items-center justify-center text-xs font-bold transition-colors';
@@ -100,20 +100,20 @@ const getCellClasses = (cellInfo: ReturnType<typeof getCellInfo>): string => {
 /**
  * BOARD COMPONENT
  *
- * Componente principal que renderiza el tablero educativo.
- * Se integra con el contexto global para mostrar el estado actual.
+ * Main component that renders the educational board.
+ * Integrates with global context to display current state.
  */
 export const Board: React.FC = () => {
   const { state } = usePathContext();
   const { coordinates } = state;
   const { t } = useTranslation();
 
-  // Calcular dimensiones dinámicas del tablero
+  // Calculate dynamic board dimensions
   const { width, height } = calculateBoardDimensions(coordinates);
 
-  // Generar array de celdas para el render
+  // Generate cell array for render
   const cells = [];
-  for (let y = height - 1; y >= 0; y--) { // Empezamos desde arriba (y mayor)
+  for (let y = height - 1; y >= 0; y--) { // Start from top (higher y)
     for (let x = 0; x < width; x++) {
       cells.push({ x, y });
     }
@@ -121,7 +121,7 @@ export const Board: React.FC = () => {
 
   return (
     <div className="space-y-4">
-      {/* TÍTULO Y INFORMACIÓN DEL TABLERO */}
+      {/* BOARD TITLE AND INFORMATION */}
       <div className="flex items-center justify-between">
         <h2 className="text-xl font-semibold text-gray-800">
           {t('board.title')}
@@ -131,7 +131,7 @@ export const Board: React.FC = () => {
         </div>
       </div>
 
-      {/* LEYENDA DE COLORES */}
+      {/* COLOR LEGEND */}
       {coordinates.length > 0 && (
         <div className="flex flex-wrap gap-4 p-3 bg-gray-50 rounded-lg text-xs">
           <div className="flex items-center gap-2">
@@ -157,7 +157,7 @@ export const Board: React.FC = () => {
         </div>
       )}
 
-      {/* TABLERO PRINCIPAL */}
+      {/* MAIN BOARD */}
       <div className="relative">
         <div
           className="grid gap-1 p-4 bg-white border-2 border-gray-300 rounded-lg shadow-sm"
@@ -175,7 +175,7 @@ export const Board: React.FC = () => {
               <div
                 key={`${x}-${y}`}
                 className={cellClasses}
-                title={cellInfo ? `Punto ${cellInfo.order}: (${x}, ${y})` : `(${x}, ${y})`}
+                title={cellInfo ? `Point ${cellInfo.order}: (${x}, ${y})` : `(${x}, ${y})`}
               >
                 {cellInfo ? cellInfo.order : ''}
               </div>
@@ -183,12 +183,12 @@ export const Board: React.FC = () => {
           })}
         </div>
 
-        {/* COORDENADAS DE REFERENCIA */}
+        {/* REFERENCE COORDINATES */}
       </div>
 
-      {/* INFORMACIÓN EDUCATIVA DEL RECORRIDO */}
+      {/* EDUCATIONAL PATH INFORMATION */}
       {coordinates.length > 1 && (
-                <div className="p-4 bg-blue-50 rounded-lg">
+        <div className="p-4 bg-blue-50 rounded-lg">
           <h3 className="font-semibold text-blue-800 mb-2">
             {t('board.analysis.title')}
           </h3>
@@ -219,7 +219,7 @@ export const Board: React.FC = () => {
         </div>
       )}
 
-      {/* MENSAJE CUANDO NO HAY COORDENADAS */}
+      {/* MESSAGE WHEN NO COORDINATES */}
       {coordinates.length === 0 && (
         <div className="text-center py-8 text-gray-500">
           <div className="text-4xl mb-2">📍</div>

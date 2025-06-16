@@ -4,28 +4,28 @@ import LanguageDetector from 'i18next-browser-languagedetector';
 import Backend from 'i18next-http-backend';
 
 i18n
-  // Carga de traducciones usando http backend
-  // Aprende más aquí: https://github.com/i18next/i18next-http-backend
+  // Load translations using http backend
+  // Learn more here: https://github.com/i18next/i18next-http-backend
   .use(Backend)
-  // Detecta el idioma del usuario
-  // Aprende más aquí: https://github.com/i18next/i18next-browser-languageDetector
+  // Detect user's language
+  // Learn more here: https://github.com/i18next/i18next-browser-languageDetector
   .use(LanguageDetector)
-  // Pasa la instancia de i18n a react-i18next
+  // Pass i18n instance to react-i18next
   .use(initReactI18next)
-  // Configuración inicial de i18next
-  // Aprende más aquí: https://www.i18next.com/overview/configuration-options
+  // Initial i18next configuration
+  // Learn more here: https://www.i18next.com/overview/configuration-options
   .init({
-    // Idioma por defecto si la detección falla
+    // Default language if detection fails
     fallbackLng: 'en',
-    // Lista de idiomas soportados
+    // List of supported languages
     supportedLngs: ['en', 'es'],
-    // Habilitar modo de depuración para ver logs en la consola
+    // Enable debug mode to see logs in console
     debug: true,
     interpolation: {
-      // React ya escapa los valores por defecto, no es necesario para él
+      // React already escapes values by default, not needed for it
       escapeValue: false,
     },
-    // Opciones para el backend que carga los archivos JSON
+    // Options for the backend that loads JSON files
     backend: {
       loadPath: '/locales/{{lng}}/{{ns}}.json',
     },

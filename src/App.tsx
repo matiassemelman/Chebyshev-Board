@@ -1,16 +1,16 @@
 /**
- * APLICACIÓN PRINCIPAL - CAPA DE INFRAESTRUCTURA
+ * MAIN APPLICATION - INFRASTRUCTURE LAYER
  *
- * Este archivo se encarga ÚNICAMENTE de la configuración de infraestructura:
- * - Proveedores de contexto global (PathProvider)
- * - Configuración de la aplicación base
- * - Importación de la página principal
+ * This file is responsible ONLY for infrastructure configuration:
+ * - Global context providers (PathProvider)
+ * - Base application configuration
+ * - Main page import
  *
- * ¿POR QUÉ NO PONEMOS LÓGICA ESPECÍFICA AQUÍ?
- * - App.tsx debe ser agnóstico del dominio específico
- * - Facilita testing y mantenimiento
- * - Permite escalar con múltiples páginas/features
- * - Respeta Clean Architecture: infraestructura separada de presentación
+ * WHY DON'T WE PUT SPECIFIC LOGIC HERE?
+ * - App.tsx should be agnostic to specific domain
+ * - Facilitates testing and maintenance
+ * - Allows scaling with multiple pages/features
+ * - Respects Clean Architecture: infrastructure separated from presentation
  */
 
 import './App.css';
@@ -21,12 +21,12 @@ import { LanguageModal } from './presentation/components/LanguageModal';
 import { useTranslation } from 'react-i18next';
 
 /**
- * COMPONENTE PRINCIPAL DE LA APLICACIÓN
+ * MAIN APPLICATION COMPONENT
  *
- * Responsabilidades:
- * - Configurar providers globales
- * - Renderizar la página principal
- * - Mantener configuración de infraestructura
+ * Responsibilities:
+ * - Configure global providers
+ * - Render main page
+ * - Maintain infrastructure configuration
  */
 function App() {
   const { t } = useTranslation();
