@@ -1,0 +1,84 @@
+{
+  "app": {
+    "title": "Visualizador de Recorridos Chebyshev",
+    "subtitle": "Un visualizador educativo de recorridos mínimos en tableros 2D",
+    "welcome": "¡Bienvenido!"
+  },
+  "languageModal": {
+    "title": "Selecciona un Idioma",
+    "description": "Elige tu idioma preferido para la sesión.",
+    "english": "English",
+    "spanish": "Español",
+    "confirm": "Confirmar"
+  },
+  "coordinateInput": {
+    "title": "Ingresa las Coordenadas",
+    "loadExample": "Cargar Ejemplo",
+    "placeholder": "Ingresa las coordenadas como array JSON, ej.:\n[\n  { \"x\": 0, \"y\": 0 },\n  { \"x\": 1, \"y\": 2 }\n]",
+    "formatInfo": "Formato: Array de objetos con propiedades x e y (enteros no negativos).",
+    "calculateButton": "Calcular Recorrido Mínimo",
+    "calculatingButton": "Calculando...",
+    "validation": {
+      "validJson": "JSON Válido",
+      "invalidJson": "JSON Inválido"
+    }
+  },
+  "board": {
+    "title": "Visualización del Recorrido",
+    "size": "Tablero {{width}} × {{height}}",
+    "legend": {
+      "start": "Punto Inicial",
+      "intermediate": "Puntos Intermedios",
+      "end": "Punto Final",
+      "empty": "Celda Vacía"
+    },
+    "analysis": {
+      "title": "Análisis del Recorrido",
+      "totalCoordinates": "Total de coordenadas",
+      "minSteps": "Pasos mínimos (distancia Chebyshev)",
+      "sequence": "Secuencia de coordenadas",
+      "note": "💡 La distancia Chebyshev permite movimiento diagonal, así que los pasos mínimos entre dos puntos son max(|dx|, |dy|)."
+    },
+    "noCoordinates": {
+      "title": "No hay coordenadas para mostrar",
+      "description": "Ingresa coordenadas arriba para ver la visualización del recorrido."
+    }
+  },
+  "home": {
+    "chebyshev": {
+      "title": "🎯 ¿Cómo funciona la distancia Chebyshev?",
+      "description": "En un tablero donde puedes moverte en <strong>8 direcciones</strong> (incluidas diagonales), la distancia mínima entre dos puntos es: <code class=\"bg-blue-100 px-2 py-1 rounded\">max(|dx|, |dy|)</code>",
+      "efficiencyNote": "💡 Esto es más eficiente que algoritmos como A* porque aprovechamos que el movimiento diagonal no cuesta extra."
+    },
+    "concepts": {
+      "title": "📚 Conceptos Implementados",
+      "architecture": {
+        "title": "🏛️ Arquitectura Limpia",
+        "domain": "• Dominio: Lógica pura (Coordinate, PathCalculator)",
+        "application": "• Aplicación: Casos de uso con validación",
+        "infrastructure": "• Infraestructura: Persistencia (localStorage)",
+        "presentation": "• Presentación: Componentes React desacoplados"
+      },
+      "technologies": {
+        "title": "⚡ Tecnologías",
+        "react": "• <strong>React 19</strong> + TypeScript",
+        "tailwind": "• <strong>TailwindCSS</strong> para estilos",
+        "zod": "• <strong>Zod</strong> para validación robusta",
+        "context": "• <strong>Context API</strong> para estado global"
+      }
+    }
+  },
+  "results": {
+    "title": "Cálculo Completado",
+    "steps": "Pasos mínimos requeridos",
+    "pathFor": "Recorrido calculado para {{count}} coordenada",
+    "pathFor_plural": "Recorrido calculado para {{count}} coordenadas"
+  },
+  "errors": {
+    "title": "Error de Validación",
+    "validation.invalidJson": "Formato JSON inválido. Por favor, proporciona un array de coordenadas JSON válido.",
+    "validation.atLeastOne": "Se requiere al menos una coordenada.",
+    "validation.invalidCoordinate": "Formato de coordenada inválido. 'x' e 'y' deben ser enteros no negativos.",
+    "unexpected": "Ocurrió un error inesperado al calcular el recorrido."
+  }
+}

@@ -20,11 +20,11 @@ import { calculateMinimumSteps } from '../../domain/services/PathCalculator';
  * Debe ser un objeto con x e y como números enteros no negativos
  */
 const CoordinateSchema = z.object({
-  x: z.number().int().min(0, "X must be a non-negative integer"),
-  y: z.number().int().min(0, "Y must be a non-negative integer")
+  x: z.number().int().min(0, "errors.validation.invalidCoordinate"),
+  y: z.number().int().min(0, "errors.validation.invalidCoordinate")
 }).refine(
   (coord) => isValidCoordinate(coord),
-  { message: "Invalid coordinate format" }
+  { message: "errors.validation.invalidCoordinate" }
 );
 
 /**
@@ -33,7 +33,7 @@ const CoordinateSchema = z.object({
  */
 const CoordinatesArraySchema = z
   .array(CoordinateSchema)
-  .min(1, "At least one coordinate is required");
+  .min(1, "errors.validation.atLeastOne");
 
 // =============================================================================
 // DTOs (DATA TRANSFER OBJECTS)
@@ -83,7 +83,7 @@ export const calculatePath = (input: CalculatePathInput): CalculatePathOutput =>
     } catch {
       return {
         success: false,
-        error: "Invalid JSON format. Please provide a valid JSON array of coordinates."
+        error: "errors.validation.invalidJson"
       };
     }
 
@@ -116,7 +116,7 @@ export const calculatePath = (input: CalculatePathInput): CalculatePathOutput =>
     // Manejo de errores inesperados
     return {
       success: false,
-      error: "An unexpected error occurred while calculating the path."
+      error: "errors.unexpected"
     };
   }
 };

@@ -1,0 +1,84 @@
+{
+  "app": {
+    "title": "Chebyshev Path Visualizer",
+    "subtitle": "An educational visualizer for minimum paths on 2D boards",
+    "welcome": "Welcome!"
+  },
+  "languageModal": {
+    "title": "Select Language",
+    "description": "Choose your preferred language for the session.",
+    "english": "English",
+    "spanish": "Spanish",
+    "confirm": "Confirm"
+  },
+  "coordinateInput": {
+    "title": "Enter Coordinates",
+    "loadExample": "Load Example",
+    "placeholder": "Enter coordinates as a JSON array, e.g.:\n[\n  { \"x\": 0, \"y\": 0 },\n  { \"x\": 1, \"y\": 2 }\n]",
+    "formatInfo": "Format: Array of objects with x and y properties (non-negative integers).",
+    "calculateButton": "Calculate Minimum Path",
+    "calculatingButton": "Calculating...",
+    "validation": {
+      "validJson": "Valid JSON",
+      "invalidJson": "Invalid JSON"
+    }
+  },
+  "board": {
+    "title": "Path Visualization",
+    "size": "Board {{width}} × {{height}}",
+    "legend": {
+      "start": "Start Point",
+      "intermediate": "Intermediate Points",
+      "end": "End Point",
+      "empty": "Empty Cell"
+    },
+    "analysis": {
+      "title": "Path Analysis",
+      "totalCoordinates": "Total coordinates",
+      "minSteps": "Minimum steps (Chebyshev distance)",
+      "sequence": "Coordinate sequence",
+      "note": "💡 Chebyshev distance allows diagonal movement, so the minimum steps between two points is max(|dx|, |dy|)."
+    },
+    "noCoordinates": {
+      "title": "No coordinates to display",
+      "description": "Enter coordinates above to see the path visualization."
+    }
+  },
+  "home": {
+    "chebyshev": {
+      "title": "🎯 How does Chebyshev distance work?",
+      "description": "On a board where you can move in <strong>8 directions</strong> (including diagonals), the minimum distance between two points is: <code class=\"bg-blue-100 px-2 py-1 rounded\">max(|dx|, |dy|)</code>",
+      "efficiencyNote": "💡 This is more efficient than algorithms like A* because we take advantage of the fact that diagonal movement has no extra cost."
+    },
+    "concepts": {
+      "title": "📚 Implemented Concepts",
+      "architecture": {
+        "title": "🏛️ Clean Architecture",
+        "domain": "• Domain: Pure logic (Coordinate, PathCalculator)",
+        "application": "• Application: Use cases with validation",
+        "infrastructure": "• Infrastructure: Persistence (localStorage)",
+        "presentation": "• Presentation: Decoupled React components"
+      },
+      "technologies": {
+        "title": "⚡ Technologies",
+        "react": "• <strong>React 19</strong> + TypeScript",
+        "tailwind": "• <strong>TailwindCSS</strong> for styling",
+        "zod": "• <strong>Zod</strong> for robust validation",
+        "context": "• <strong>Context API</strong> for global state"
+      }
+    }
+  },
+  "results": {
+    "title": "Calculation Complete",
+    "steps": "Minimum steps required",
+    "pathFor": "Path calculated for {{count}} coordinate",
+    "pathFor_plural": "Path calculated for {{count}} coordinates"
+  },
+  "errors": {
+    "title": "Validation Error",
+    "validation.invalidJson": "Invalid JSON format. Please provide a valid JSON array of coordinates.",
+    "validation.atLeastOne": "At least one coordinate is required.",
+    "validation.invalidCoordinate": "Invalid coordinate format. 'x' and 'y' must be non-negative integers.",
+    "unexpected": "An unexpected error occurred while calculating the path."
+  }
+}

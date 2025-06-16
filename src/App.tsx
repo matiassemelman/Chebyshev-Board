@@ -15,7 +15,10 @@
 
 import './App.css';
 import { PathProvider } from './presentation/context/PathContext';
+import { LanguageProvider } from './presentation/context/LanguageContext';
 import { HomePage } from './presentation/pages/HomePage';
+import { LanguageModal } from './presentation/components/LanguageModal';
+import { useTranslation } from 'react-i18next';
 
 /**
  * COMPONENTE PRINCIPAL DE LA APLICACIÓN
@@ -26,22 +29,26 @@ import { HomePage } from './presentation/pages/HomePage';
  * - Mantener configuración de infraestructura
  */
 function App() {
+  const { t } = useTranslation();
   return (
-    <PathProvider>
-      <div className="min-h-screen bg-gray-50">
-        <div className="container mx-auto px-4 py-6">
-          <header className="text-center mb-8">
-            <h1 className="text-3xl font-bold text-gray-800 mb-2">
-              🚀 Algoritmo Chebyshev
-            </h1>
-            <p className="text-gray-600 text-lg">
-              Visualizador educativo de recorridos mínimos en tableros 2D
-            </p>
-          </header>
-          <HomePage />
+    <LanguageProvider>
+      <PathProvider>
+        <LanguageModal />
+        <div className="min-h-screen bg-gray-100 text-gray-800 font-sans p-4 sm:p-6 lg:p-8">
+          <div className="max-w-7xl mx-auto">
+            <header className="text-center mb-8">
+              <h1 className="text-3xl font-bold text-gray-800 mb-2">
+                {t('app.title')}
+              </h1>
+              <p className="text-gray-600 text-lg">
+                {t('app.subtitle')}
+              </p>
+            </header>
+            <HomePage />
+          </div>
         </div>
-      </div>
-    </PathProvider>
+      </PathProvider>
+    </LanguageProvider>
   );
 }
 

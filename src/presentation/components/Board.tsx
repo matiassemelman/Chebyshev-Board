@@ -14,6 +14,7 @@
  */
 
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 import type { Coordinate } from '../../domain/models/Coordinate';
 import { usePathContext } from '../context/PathContext';
 
@@ -105,6 +106,7 @@ const getCellClasses = (cellInfo: ReturnType<typeof getCellInfo>): string => {
 export const Board: React.FC = () => {
   const { state } = usePathContext();
   const { coordinates } = state;
+  const { t } = useTranslation();
 
   // Calcular dimensiones dinámicas del tablero
   const { width, height } = calculateBoardDimensions(coordinates);
@@ -122,10 +124,10 @@ export const Board: React.FC = () => {
       {/* TÍTULO Y INFORMACIÓN DEL TABLERO */}
       <div className="flex items-center justify-between">
         <h2 className="text-xl font-semibold text-gray-800">
-          🎯 Visualización del Recorrido
+          {t('board.title')}
         </h2>
         <div className="text-sm text-gray-600">
-          Tablero {width} × {height}
+          {t('board.size', { width, height })}
         </div>
       </div>
 
@@ -134,23 +136,23 @@ export const Board: React.FC = () => {
         <div className="flex flex-wrap gap-4 p-3 bg-gray-50 rounded-lg text-xs">
           <div className="flex items-center gap-2">
             <div className="w-4 h-4 bg-green-500 rounded"></div>
-            <span>Punto Inicial</span>
+            <span>{t('board.legend.start')}</span>
           </div>
           {coordinates.length > 2 && (
             <div className="flex items-center gap-2">
               <div className="w-4 h-4 bg-blue-500 rounded"></div>
-              <span>Puntos Intermedios</span>
+              <span>{t('board.legend.intermediate')}</span>
             </div>
           )}
           {coordinates.length > 1 && (
             <div className="flex items-center gap-2">
               <div className="w-4 h-4 bg-red-500 rounded"></div>
-              <span>Punto Final</span>
+              <span>{t('board.legend.end')}</span>
             </div>
           )}
           <div className="flex items-center gap-2">
             <div className="w-4 h-4 bg-gray-100 border border-gray-300 rounded"></div>
-            <span>Celda Vacía</span>
+            <span>{t('board.legend.empty')}</span>
           </div>
         </div>
       )}
@@ -188,17 +190,17 @@ export const Board: React.FC = () => {
       {coordinates.length > 1 && (
                 <div className="p-4 bg-blue-50 rounded-lg">
           <h3 className="font-semibold text-blue-800 mb-2">
-            📚 Análisis del Recorrido
+            {t('board.analysis.title')}
           </h3>
           <div className="space-y-2 text-sm text-blue-700">
             <p>
-              <strong>Total de coordenadas:</strong> {coordinates.length}
+              <strong>{t('board.analysis.totalCoordinates')}:</strong> {coordinates.length}
             </p>
             <p>
-              <strong>Pasos mínimos (distancia Chebyshev):</strong> {state.totalSteps}
+              <strong>{t('board.analysis.minSteps')}:</strong> {state.totalSteps}
             </p>
             <div>
-              <strong>Secuencia de coordenadas:</strong>
+              <strong>{t('board.analysis.sequence')}:</strong>
               <div className="mt-1 font-mono text-xs bg-white p-2 rounded border">
                 {coordinates.map((coord, index) => (
                   <span key={index}>
@@ -211,8 +213,7 @@ export const Board: React.FC = () => {
               </div>
             </div>
             <p className="text-xs text-blue-600 italic">
-              💡 La distancia Chebyshev permite movimiento diagonal, así que los pasos mínimos
-              entre dos puntos es max(|dx|, |dy|).
+              {t('board.analysis.note')}
             </p>
           </div>
         </div>
@@ -222,8 +223,8 @@ export const Board: React.FC = () => {
       {coordinates.length === 0 && (
         <div className="text-center py-8 text-gray-500">
           <div className="text-4xl mb-2">📍</div>
-          <p className="text-lg font-medium">No hay coordenadas para mostrar</p>
-          <p className="text-sm">Ingresa coordenadas arriba para ver la visualización del recorrido</p>
+          <p className="text-lg font-medium">{t('board.noCoordinates.title')}</p>
+          <p className="text-sm">{t('board.noCoordinates.description')}</p>
         </div>
       )}
     </div>

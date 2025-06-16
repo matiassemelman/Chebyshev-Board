@@ -14,6 +14,7 @@
  */
 
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 import { usePathContext } from '../context/PathContext';
 
 /**
@@ -44,6 +45,7 @@ const isValidJSON = (jsonString: string): boolean => {
  */
 export const CoordinateInput: React.FC = () => {
   const { state, dispatch, calculateMinimumPath } = usePathContext();
+  const { t } = useTranslation();
 
   /**
    * HANDLER: CAMBIO EN EL TEXTAREA
@@ -101,14 +103,14 @@ export const CoordinateInput: React.FC = () => {
       {/* TÍTULO DE LA SECCIÓN */}
       <div className="flex items-center justify-between">
         <h2 className="text-xl font-semibold text-gray-800">
-          📍 Ingresa las Coordenadas
+          {t('coordinateInput.title')}
         </h2>
         <button
           onClick={handleLoadExample}
           className="px-3 py-1 text-sm text-blue-600 hover:text-blue-800 hover:bg-blue-50 rounded transition-colors"
           type="button"
         >
-          Cargar Ejemplo
+          {t('coordinateInput.loadExample')}
         </button>
       </div>
 
@@ -117,7 +119,7 @@ export const CoordinateInput: React.FC = () => {
         <textarea
           value={state.coordinatesJson}
           onChange={handleInputChange}
-          placeholder='Ingresa las coordenadas como array JSON, ej.:\n[\n  { "x": 0, "y": 0 },\n  { "x": 1, "y": 2 },\n  { "x": 3, "y": 1 }\n]'
+          placeholder={t('coordinateInput.placeholder')}
           rows={8}
           className={textareaClasses}
           disabled={state.isLoading}
@@ -127,9 +129,9 @@ export const CoordinateInput: React.FC = () => {
                   {showValidation && (
           <div className="absolute top-2 right-2">
             {jsonIsValid ? (
-              <span className="text-green-600 text-lg" title="JSON Válido">✓</span>
+              <span className="text-green-600 text-lg" title={t('coordinateInput.validation.validJson')}>✓</span>
             ) : (
-              <span className="text-red-600 text-lg" title="JSON Inválido">✗</span>
+              <span className="text-red-600 text-lg" title={t('coordinateInput.validation.invalidJson')}>✗</span>
             )}
           </div>
         )}
@@ -137,8 +139,7 @@ export const CoordinateInput: React.FC = () => {
 
       {/* INFORMACIÓN EDUCATIVA */}
       <div className="text-sm text-gray-600 bg-blue-50 p-3 rounded-lg">
-        💡 <strong>Formato:</strong> Array de objetos con propiedades x e y (enteros no negativos).
-        El algoritmo calculará los pasos mínimos usando distancia Chebyshev.
+        💡 <strong>{t('coordinateInput.formatInfo')}</strong>
       </div>
 
       {/* BOTÓN DE CÁLCULO */}
@@ -160,10 +161,10 @@ export const CoordinateInput: React.FC = () => {
               <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
               <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
             </svg>
-            Calculando...
+            {t('coordinateInput.calculatingButton')}
           </span>
         ) : (
-          '🧮 Calcular Recorrido Mínimo'
+          t('coordinateInput.calculateButton')
         )}
       </button>
 
@@ -173,8 +174,8 @@ export const CoordinateInput: React.FC = () => {
           <div className="flex items-start">
             <span className="text-red-600 text-lg mr-2">⚠️</span>
             <div>
-              <h3 className="text-sm font-medium text-red-800">Error de Validación</h3>
-              <p className="text-sm text-red-700 mt-1">{state.error}</p>
+              <h3 className="text-sm font-medium text-red-800">{t('errors.title')}</h3>
+              <p className="text-sm text-red-700 mt-1">{t(state.error)}</p>
             </div>
           </div>
         </div>
@@ -187,13 +188,13 @@ export const CoordinateInput: React.FC = () => {
             <span className="text-green-600 text-lg mr-2">✅</span>
             <div>
               <h3 className="text-sm font-medium text-green-800">
-                Cálculo Completado
+                {t('results.title')}
               </h3>
               <p className="text-sm text-green-700 mt-1">
-                <strong>Pasos mínimos requeridos:</strong> {state.totalSteps}
+                <strong>{t('results.steps')}:</strong> {state.totalSteps}
               </p>
               <p className="text-xs text-green-600 mt-1">
-                Recorrido calculado para {state.coordinates.length} coordenada{state.coordinates.length !== 1 ? 's' : ''}
+                {t('results.pathFor', { count: state.coordinates.length })}
               </p>
             </div>
           </div>
