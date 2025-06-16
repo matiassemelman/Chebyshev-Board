@@ -1,53 +1,53 @@
-# Visualizador educativo de recorridos mínimos en tableros de 8 direcciones
+# Educational Visualizer for Minimum Paths in 8-Direction Boards
 
-[Preview en Vercel](https://chebyshev-board.vercel.app/)
+[Preview on Vercel](https://chebyshev-board.vercel.app/)
 ---
 
-### 1 · Introducción
+### 1 · Introduction
 
-El objetivo del reto es construir una **mini‑aplicación web** que explique, de forma **visual y conceptual**, cómo calcular el **número mínimo de pasos** que una ficha de tablero (capaz de moverse en cualquiera de sus 8 direcciones adyacentes) necesita para visitar una serie de coordenadas dadas en orden. La app servirá como pieza didáctica. El projecto mostrará separación responsabilidades mediante **Clean Architecture**.
+The challenge's goal is to build a **mini-web application** that explains, in a **visual and conceptual** way, how to calculate the **minimum number of steps** that a board piece (capable of moving in any of its 8 adjacent directions) needs to visit a series of given coordinates in order. The app will serve as an educational piece. The project will show separation of responsibilities through **Clean Architecture**.
 
 ---
 
-### 2 · Objetivos & Resultados clave ()
+### 2 · Objectives & Key Results ()
 
-| Objetivo
+| Objective
 | -------------------------------------------------------------------------
-| 💡 **Conceptual**    Comprender el problema de distancia chebyshev en 2D.
-| 🚀 **Funcional**    Mostrar gráficamente el camino mínimo.
-| 🧩 **Arquitectónico**    Aplicar Clean Architecture end‑to‑end.
+| 💡 **Conceptual**    Understand the 2D Chebyshev distance problem.
+| 🚀 **Functional**    Graphically display the minimum path.
+| 🧩 **Architectural**    Apply Clean Architecture end-to-end.
 
 ---
 
-### 3 · Características
+### 3 · Features
 
-1. **Input de coordenadas** (listado editable o texto JSON).
-2. **Renderizado de tablero** dinámico con posición inicial y visitas.
-3. **Cálculo en tiempo real** del número mínimo de pasos usando la fórmula Chebyshev.
-4. **Lista de pasos** texto (p.ej. ➜ NE, N, N).
-
----
-
-### 4 · User Journey resumido
-
-1. Usuario abre `/` → ve formulario vacío y tablero.
-2. Pega `[ (0,0), (1,2), (1,3) ]` → `Calcular`.
-3. Resultado: “Pasos mínimos = 3” + tablero con trayecto resaltado.
-4. Puede editar la lista → UI se actualiza instantáneamente.
+1. **Coordinate input** (editable list or JSON text).
+2. **Dynamic board rendering** with initial position and visits.
+3. **Real-time calculation** of minimum steps using the Chebyshev formula.
+4. **Step list** text (e.g. ➜ NE, N, N).
 
 ---
 
-### 5 · Tech Stack
+### 4 · Summarized User Journey
 
-| Capa                | Herramientas                                                  |
+1. User opens `/` → sees empty form and board.
+2. Pastes `[ (0,0), (1,2), (1,3) ]` → `Calculate`.
+3. Result: "Minimum steps = 3" + board with highlighted path.
+4. Can edit the list → UI updates instantly.
+
+---
+
+### 5 · Tech Stack
+
+| Layer             | Tools                                                      |
 | ------------------- | ------------------------------------------------------------- |
-| **Presentación**    | React 18 + TypeScript, Vite, TailwindCSS                      |
-| **Aplicación**      | Zod (validación), React Context 					|
-| **Dominio**         | Clases TS puras 100 % libre de frameworks                     |
+| **Presentation**    | React 18 + TypeScript, Vite, TailwindCSS                      |
+| **Application**      | Zod (validation), React Context 					|
+| **Domain**         | Pure TS classes 100% framework-free                     |
 
 ---
 
-### 6 · Arquitectura (Clean)
+### 6 · Architecture (Clean)
 
 ```
 src/
@@ -64,6 +64,6 @@ src/
      └─ pages/HomePage.tsx
 ```
 
-Dependencias siempre **de exterior a interior** (Presentation → App → Domain). Domain no importa nada externo.
+Dependencies always **from outside to inside** (Presentation → App → Domain). Domain doesn't import anything external.
 
 ---
