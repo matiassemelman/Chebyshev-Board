@@ -67,3 +67,32 @@ src/
 Dependencies always **from outside to inside** (Presentation → App → Domain). Domain doesn't import anything external.
 
 ---
+
+### 7 · Internationalization (i18n)
+
+The application supports multiple languages through a session-based internationalization system:
+
+- **Supported Languages:** Spanish (es) and English (en)
+- **Features:**
+  - Automatic browser language detection
+  - Language selection modal on startup
+  - Manual language switching through UI
+  - All static texts and error messages are translated
+  - Clean Architecture compliant implementation
+
+**Tech Stack:**
+- `i18next`
+- `react-i18next`
+- `i18next-browser-languagedetector`
+
+**Implementation:**
+```plaintext
+public/
+└─ locales/
+   ├─ en/
+   │  └─ translation.json
+   └─ es/
+      └─ translation.json
+```
+
+---
