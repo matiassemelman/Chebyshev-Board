@@ -77,3 +77,41 @@ export const calculateMinimumSteps = (coordinates: Coordinate[]): number => {
   // Return total steps to complete the entire path
   return totalSteps;
 };
+
+/**
+ * ACCUMULATED STEPS CALCULATION TO SPECIFIC COORDINATE
+ *
+ * Calculates the minimum steps needed to reach a specific coordinate
+ * from the beginning of the path (first coordinate).
+ *
+ * @param targetCoordinate - The coordinate we want to reach
+ * @param coordinates - The complete path sequence
+ * @returns Number of accumulated steps to reach the target coordinate
+ */
+export const calculateAccumulatedStepsToCoordinate = (
+  targetCoordinate: Coordinate,
+  coordinates: readonly Coordinate[]
+): number => {
+  if (coordinates.length === 0) return 0;
+
+  // Find the index of the target coordinate in the path
+  const targetIndex = coordinates.findIndex(
+    coord => coord.x === targetCoordinate.x && coord.y === targetCoordinate.y
+  );
+
+  // If coordinate not found in path, return 0
+  if (targetIndex === -1) return 0;
+
+  // If it's the first coordinate (origin), no steps needed
+  if (targetIndex === 0) return 0;
+
+  // Calculate accumulated steps from origin to target
+  let accumulatedSteps = 0;
+  for (let i = 1; i <= targetIndex; i++) {
+    const currentCoord = coordinates[i];
+    const previousCoord = coordinates[i - 1];
+    accumulatedSteps += calculateChebyshevDistance(previousCoord, currentCoord);
+  }
+
+  return accumulatedSteps;
+};

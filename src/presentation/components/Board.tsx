@@ -17,6 +17,7 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 import type { Coordinate } from '../../domain/models/Coordinate';
 import type { Movement } from '../../domain/models/Movement';
+import { calculateAccumulatedStepsToCoordinate } from '../../domain/services/PathCalculator';
 import { usePathContext } from '../context/PathContext';
 import { StepsList } from './StepsList';
 
@@ -48,7 +49,7 @@ const calculateBoardDimensions = (coordinates: readonly Coordinate[]) => {
  * HELPER FUNCTION: GET CELL INFORMATION
  *
  * Determines if a cell contains a visited coordinate
- * and in what order it was visited.
+ * and calculates accumulated steps to reach it.
  *
  * @param x - Cell X coordinate
  * @param y - Cell Y coordinate
@@ -60,8 +61,11 @@ const getCellInfo = (x: number, y: number, coordinates: readonly Coordinate[]) =
 
   if (index === -1) return null;
 
+  const currentCoordinate = { x, y };
+  const accumulatedSteps = calculateAccumulatedStepsToCoordinate(currentCoordinate, coordinates);
+
   return {
-    order: index + 1, // 1-indexed for user display
+    order: accumulatedSteps, // Now shows accumulated steps instead of sequence order
     isStart: index === 0,
     isEnd: index === coordinates.length - 1,
     isIntermediate: index > 0 && index < coordinates.length - 1
@@ -177,7 +181,7 @@ export const Board: React.FC = () => {
               <div
                 key={`${x}-${y}`}
                 className={cellClasses}
-                title={cellInfo ? `Point ${cellInfo.order}: (${x}, ${y})` : `(${x}, ${y})`}
+                title={cellInfo ? `${cellInfo.order} steps to reach (${x}, ${y})` : `(${x}, ${y})`}
               >
                 {cellInfo ? cellInfo.order : ''}
               </div>
