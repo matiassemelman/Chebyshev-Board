@@ -33,8 +33,8 @@ export class GroqClient {
     const { text } = await generateText({
       model: this.enhancedModel,
       prompt,
-      maxTokens: 1024, // Reduced for concise explanations
-      temperature: 0.6, // Groq best practice for reasoning models
+      maxTokens: 1024, // Reduced for simpler explanations
+      temperature: 0.7, // Slightly higher for more natural language
     });
 
     // Return clean text (reasoning already extracted by middleware)
@@ -42,9 +42,36 @@ export class GroqClient {
   }
 
   private buildPrompt(movement: Movement, language: string): string {
+    // Calculate simple movement distances
+    const dx = Math.abs(movement.to.x - movement.from.x);
+    const dy = Math.abs(movement.to.y - movement.from.y);
+
     const templates = {
-      en: `You must respond ONLY in English. Explain in simple, educational terms why moving from (${movement.from.x},${movement.from.y}) to (${movement.to.x},${movement.to.y}) in direction ${movement.direction} is optimal for Chebyshev distance. Give a direct, concise answer without thinking process. Maximum 40 words.`,
-      es: `Debes responder ÚNICAMENTE en español. Explica de forma simple y educativa por qué moverse de (${movement.from.x},${movement.from.y}) a (${movement.to.x},${movement.to.y}) en dirección ${movement.direction} es óptimo para la distancia Chebyshev. Da una respuesta directa y concisa sin proceso de pensamiento. Máximo 40 palabras.`
+      en: `You are a friendly tutor helping a high school student understand how a chess king moves on a board.
+
+SITUATION: Moving from (${movement.from.x},${movement.from.y}) to (${movement.to.x},${movement.to.y})
+
+Think of this like a chess king that can move in any direction: up, down, left, right, or diagonally.
+
+- We need to move ${dx} spaces horizontally and ${dy} spaces vertically
+- The smart move is "${movement.direction}" because...
+
+EXPLAIN LIKE I'M 15: Why is this single move the best choice? Use simple language, think of it like giving directions to a friend. Focus on why moving diagonally is often smarter than moving in separate steps.
+
+Keep it under 150 simple words. No math formulas or technical terms.`,
+
+      es: `Eres un tutor amigable ayudando a un estudiante de secundaria a entender cómo se mueve un rey de ajedrez en un tablero.
+
+SITUACIÓN: Moviéndose de (${movement.from.x},${movement.from.y}) a (${movement.to.x},${movement.to.y})
+
+Piensa en esto como un rey de ajedrez que puede moverse en cualquier dirección: arriba, abajo, izquierda, derecha, o en diagonal.
+
+- Necesitamos movernos ${dx} espacios horizontalmente y ${dy} espacios verticalmente
+- La jugada inteligente es "${movement.direction}" porque...
+
+EXPLICA COMO SI TUVIERA 15 AÑOS: ¿Por qué este movimiento es la mejor opción? Usa lenguaje simple, piénsalo como dar indicaciones a un amigo. Enfócate en por qué moverse en diagonal es a menudo más inteligente que moverse en pasos separados.
+
+Máximo 150 palabras simples. Sin fórmulas matemáticas o términos técnicos.`
     };
 
     return templates[language as keyof typeof templates] || templates.en;
