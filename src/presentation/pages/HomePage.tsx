@@ -17,11 +17,15 @@
  * - Respects Clean Architecture: separation of concerns
  */
 
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { CoordinateInput } from '../components/CoordinateInput';
 import { Board } from '../components/Board';
 import { LanguageSwitcher } from '../components/LanguageSwitcher';
+import { ExplanationPanel } from '../components/ExplanationPanel';
+import { ExplanationCacheRepository } from '../../infrastructure/persistence/ExplanationCacheRepository';
+import { getStepExplanation } from '../../application/usecases/GetStepExplanationUseCase';
+import type { Movement } from '../../domain/models/Movement';
 
 /**
  * HOME PAGE COMPONENT
@@ -30,7 +34,56 @@ import { LanguageSwitcher } from '../components/LanguageSwitcher';
  * Composes input and visualization components in an educational layout.
  */
 export const HomePage: React.FC = () => {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
+  const [selectedMovement, setSelectedMovement] = useState<Movement | null>(null);
+  const [explanation, setExplanation] = useState<string | null>(null);
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+
+  const repository = new ExplanationCacheRepository();
+
+  const handleStepClick = async (movement: Movement) => {
+    setSelectedMovement(movement);
+    setIsLoading(true);
+    setError(null);
+    setExplanation(null);
+
+    try {
+      const result = await getStepExplanation(
+        { movement, language: i18n.language },
+        repository
+      );
+
+      if (result.success) {
+        setExplanation(result.explanation);
+      } else {
+        setError(result.error);
+      }
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Unknown error');
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const handleCloseExplanation = () => {
+    setSelectedMovement(null);
+    setExplanation(null);
+    setError(null);
+  };
+
+  // Listen for step clicks from Board component
+  useEffect(() => {
+    const handleStepClickEvent = (event: CustomEvent) => {
+      handleStepClick(event.detail as Movement);
+    };
+
+    window.addEventListener('stepClick', handleStepClickEvent as EventListener);
+    return () => {
+      window.removeEventListener('stepClick', handleStepClickEvent as EventListener);
+    };
+  }, []);
+
   return (
     <>
       <div className="absolute top-4 right-4 z-10">
@@ -94,6 +147,14 @@ export const HomePage: React.FC = () => {
           </div>
         </section>
       </main>
+
+      <ExplanationPanel
+        movement={selectedMovement}
+        explanation={explanation}
+        isLoading={isLoading}
+        error={error}
+        onClose={handleCloseExplanation}
+      />
     </>
   );
 };

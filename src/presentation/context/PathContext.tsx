@@ -15,8 +15,10 @@
 
 import React, { createContext, useContext, useReducer, useEffect, type ReactNode } from 'react';
 import type { Coordinate } from '../../domain/models/Coordinate';
+import type { Movement } from '../../domain/models/Movement';
 import { LocalStorageRepository } from '../../infrastructure/persistence/LocalStorageRepository';
 import { calculatePath } from '../../application/usecases/CalculatePathUseCase';
+import { calculateMovements } from '../../domain/services/MovementCalculator';
 
 // =============================================================================
 // STATE DEFINITION
@@ -32,6 +34,7 @@ export interface PathState {
   readonly error: string | null;
   readonly isLoading: boolean;
   readonly coordinatesJson: string;
+  readonly movements: readonly Movement[];
 }
 
 /**
@@ -43,7 +46,8 @@ const initialState: PathState = {
   totalSteps: 0,
   error: null,
   isLoading: false,
-  coordinatesJson: '[]'
+  coordinatesJson: '[]',
+  movements: []
 };
 
 // =============================================================================
@@ -57,7 +61,7 @@ const initialState: PathState = {
 export type PathAction =
   | { type: 'SET_COORDINATES_JSON'; payload: string }
   | { type: 'CALCULATE_START' }
-  | { type: 'CALCULATE_SUCCESS'; payload: { coordinates: readonly Coordinate[]; totalSteps: number } }
+  | { type: 'CALCULATE_SUCCESS'; payload: { coordinates: readonly Coordinate[]; totalSteps: number; movements: readonly Movement[] } }
   | { type: 'CALCULATE_ERROR'; payload: string }
   | { type: 'LOAD_FROM_STORAGE'; payload: readonly Coordinate[] };
 
@@ -97,6 +101,7 @@ const pathReducer = (state: PathState, action: PathAction): PathState => {
         isLoading: false,
         coordinates: action.payload.coordinates,
         totalSteps: action.payload.totalSteps,
+        movements: action.payload.movements,
         error: null
       };
 
@@ -213,11 +218,13 @@ export const PathProvider: React.FC<PathProviderProps> = ({ children }) => {
       const result = calculatePath({ coordinatesJson: state.coordinatesJson });
 
       if (result.success) {
+        const movements = calculateMovements(result.coordinates);
         dispatch({
           type: 'CALCULATE_SUCCESS',
           payload: {
             coordinates: result.coordinates,
-            totalSteps: result.totalSteps
+            totalSteps: result.totalSteps,
+            movements
           }
         });
       } else {

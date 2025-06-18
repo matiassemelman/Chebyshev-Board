@@ -80,5 +80,18 @@
     "validation.atLeastOne": "At least one coordinate is required.",
     "validation.invalidCoordinate": "Invalid coordinate format. 'x' and 'y' must be non-negative integers.",
     "unexpected": "An unexpected error occurred while calculating the path."
+  },
+  "steps": {
+    "title": "Path Steps",
+    "step": "Step",
+    "clickToExplain": "Click to get explanation"
+  },
+  "explanation": {
+    "title": "Step Explanation",
+    "loading": "Generating explanation...",
+    "error": "Failed to generate explanation"
+  },
+  "common": {
+    "close": "Close"
   }
 }

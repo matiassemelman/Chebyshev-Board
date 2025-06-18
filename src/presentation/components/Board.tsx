@@ -16,7 +16,9 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import type { Coordinate } from '../../domain/models/Coordinate';
+import type { Movement } from '../../domain/models/Movement';
 import { usePathContext } from '../context/PathContext';
+import { StepsList } from './StepsList';
 
 /**
  * HELPER FUNCTION: CALCULATE BOARD DIMENSIONS
@@ -105,7 +107,7 @@ const getCellClasses = (cellInfo: ReturnType<typeof getCellInfo>): string => {
  */
 export const Board: React.FC = () => {
   const { state } = usePathContext();
-  const { coordinates } = state;
+  const { coordinates, movements } = state;
   const { t } = useTranslation();
 
   // Calculate dynamic board dimensions
@@ -217,6 +219,17 @@ export const Board: React.FC = () => {
             </p>
           </div>
         </div>
+      )}
+
+      {/* STEPS LIST FOR EXPLANATIONS */}
+      {movements.length > 0 && (
+        <StepsList
+          movements={movements}
+          onStepClick={(movement: Movement) => {
+            // This will be handled by HomePage
+            window.dispatchEvent(new CustomEvent('stepClick', { detail: movement }));
+          }}
+        />
       )}
 
       {/* MESSAGE WHEN NO COORDINATES */}

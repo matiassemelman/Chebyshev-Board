@@ -80,5 +80,18 @@
     "validation.atLeastOne": "Se requiere al menos una coordenada.",
     "validation.invalidCoordinate": "Formato de coordenada inválido. 'x' e 'y' deben ser enteros no negativos.",
     "unexpected": "Ocurrió un error inesperado al calcular el recorrido."
+  },
+  "steps": {
+    "title": "Pasos del Recorrido",
+    "step": "Paso",
+    "clickToExplain": "Click para obtener explicación"
+  },
+  "explanation": {
+    "title": "Explicación del Paso",
+    "loading": "Generando explicación...",
+    "error": "Falló al generar la explicación"
+  },
+  "common": {
+    "close": "Cerrar"
   }
 }
