@@ -13,10 +13,7 @@ export const LanguageModal: React.FC = () => {
   }, [i18n.language]);
 
   const handleSelect = () => {
-    if (selectedLanguage === 'en' || selectedLanguage === 'es') {
-      setLanguage(selectedLanguage);
-      setIsOpen(false);
-    }
+    setIsOpen(false);
   };
 
   if (!isOpen) {
@@ -31,7 +28,10 @@ export const LanguageModal: React.FC = () => {
 
         <div className="flex justify-center space-x-4 mb-8">
           <button
-            onClick={() => setSelectedLanguage('en')}
+            onClick={() => {
+              setSelectedLanguage('en');
+              setLanguage('en');
+            }}
             className={`px-6 py-3 rounded-lg text-lg font-semibold transition-all ${
               selectedLanguage === 'en'
                 ? 'bg-blue-600 text-white scale-105 shadow-lg'
@@ -41,7 +41,10 @@ export const LanguageModal: React.FC = () => {
             {t('languageModal.english')}
           </button>
           <button
-            onClick={() => setSelectedLanguage('es')}
+            onClick={() => {
+              setSelectedLanguage('es');
+              setLanguage('es');
+            }}
             className={`px-6 py-3 rounded-lg text-lg font-semibold transition-all ${
               selectedLanguage === 'es'
                 ? 'bg-blue-600 text-white scale-105 shadow-lg'
